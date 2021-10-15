@@ -17,48 +17,48 @@
 		<div class="layui-fluid">
 		    <div class="layui-row">
 		        <form class="layui-form">
-					<div class="layui-form-item">
+	<!-- 				<div class="layui-form-item">
 					    <label for="address" class="layui-form-label">
 					        <span class="x-red">*</span>地点</label>
 					    <div class="layui-input-inline">
 					        <input type="text" id="address" name="address" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
-					</div>
-					<div class="layui-form-item">
+					</div> -->
+<!-- 					<div class="layui-form-item">
 					    <label for="level" class="layui-form-label">
 					        <span class="x-red">*</span>震级</label>
 					    <div class="layui-input-inline">
 					        <input type="number"  oninput="if(value<0)value=0;if(value>10)value=10" id="level" name="level" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
-					</div>
-					<div class="layui-form-item">
+					</div> -->
+<!-- 					<div class="layui-form-item">
 					    <label for="height" class="layui-form-label">
 					        <span class="x-red">*</span>震源深度</label>
 					    <div class="layui-input-inline">
 					        <input type="number" id="height" name="height" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
-					</div>
-					<div class="layui-form-item">
+					</div> -->
+<!-- 					<div class="layui-form-item">
 					    <label for="stationNum" class="layui-form-label">
 					        <span class="x-red">*</span>基站退服数</label>
 					    <div class="layui-input-inline">
 					        <input type="number" oninput="if(value<0)value=0" id="stationNum" name="stationNum" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
-					</div>
-					<div class="layui-form-item">
+					</div> -->
+<!-- 					<div class="layui-form-item">
 					    <label for="cableLength" class="layui-form-label">
 					        <span class="x-red">*</span>传输光缆中断长度</label>
 					    <div class="layui-input-inline">
 					        <input type="number" oninput="if(value<0)value=0" id="cableLength" name="cableLength" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
-					</div>
-					<div class="layui-form-item">
+					</div> -->
+<!-- 					<div class="layui-form-item">
 					    <label for="stationPer" class="layui-form-label">
 					        <span class="x-red">*</span>基站退服率</label>
 					    <div class="layui-input-inline">
 					        <input type="number" oninput="if(value<0)value=0" id="stationPer" name="stationPer" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
-					</div>
-					<div class="layui-form-item">
+					</div> -->
+<!-- 					<div class="layui-form-item">
 					    <label for="poleNum" class="layui-form-label">
 					        <span class="x-red">*</span>通信线杆倾倒数量</label>
 					    <div class="layui-input-inline">
 					        <input type="number" oninput="if(value<0)value=0" id="poleNum" name="poleNum" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
-					</div>
+					</div> -->
 					
 
 		            
@@ -82,9 +82,9 @@
 				var slider = layui.slider;
 				var upload = layui.upload;
 				var picpath = null;
-				var URL = 'http://10.5.103.127:8000';
-				// var uploadUrl = 'http://10.5.103.127:8001';
-				var URLInterpreter = "http://10.5.103.127:5001";
+				var URL = 'http://localhost:8000';
+				// var uploadUrl = 'http://localhost:8001';
+				var URLInterpreter = "http://localhost:5001";
 				// var URL = 'http://39.99.228.199:8006';
 				// var uploadUrl = 'http://39.99.228.199:8001';
 				
@@ -102,14 +102,14 @@
 		        //监听提交
 		        form.on('submit(submit)',
 		        function(data) {
-					var csrfmiddlewaretoken = '{{ csrf_token }}';
-					var address = $("#address").val();
-					var level = $("#level").val();
-					var height = $("#height").val();
-					var stationNum = $("#stationNum").val();
-					var cableLength = $("#cableLength").val();
-					var stationPer = $("#stationPer").val();
-					var poleNum = $("#poleNum").val();
+					var csrfmiddlewaretoken = 0;
+					var address = 0;
+					var level = 0;
+					var height = 0;
+					var stationNum = 0;
+					var cableLength = 0;
+					var stationPer = 0;
+					var poleNum = 0;
 					var data =  {
 						"address": address,
 						"level": level,
@@ -175,7 +175,7 @@
 		        s.parentNode.insertBefore(hm, s);
 		    })();</script>
 			<script>
-				var URL = 'http://10.5.103.127:3002';
+				var URL = 'http://localhost:3002';
 				var myVar=''
 				function prediction(){
 					$.ajax({

@@ -39,17 +39,19 @@
 				    <a onclick="xadmin.add_tab('首页','http://news.ceic.ac.cn/index.html')">地震台网中心</a>
 					</li>
 				<li class="layui-nav-item to-index">
-				    <a onclick="xadmin.add_tab('','http://www.baidu.com/index.html')">跨网跨端采集系统 </a>
+				    <a onclick="xadmin.add_tab('','http://219.143.71.122/disaster_collection/')">跨网跨端采集系统 </a>
 					</li>
 				<li class="layui-nav-item to-index">
 				    <a onclick="xadmin.add_tab('','http://www.baidu.com/index.html')">川滇数据库 </a>
 					</li>
 					<li class="layui-nav-item to-index">
-					    <a onclick="xadmin.add_tab('','http://www.baidu.com/index.html')">设灾信息采集系统 </a>
+					    <a onclick="xadmin.add_tab('','http://112.126.83.24')">涉灾信息采集系统 </a>
 						</li>
 				<li class="layui-nav-item to-index">
-				    <a onclick="xadmin.add_tab('','http://www.baidu.com/index.html')">舆情信息采集系统 </a>
+				    <a onclick="xadmin.add_tab('','http://1.119.169.73:10004/idrdms/#/')">舆情信息采集系统 </a>
 					</li>
+					<li class="layui-nav-item to-index">
+
                 <li class="layui-nav-item">
                     <a href="javascript:;">个人中心</a>
                     <dl class="layui-nav-child">
@@ -331,8 +333,8 @@
 					</li> -->
 					<li>
 					    <a href="javascript:;">
-					        <i class="iconfont left-nav-li" lay-tips="灾情智能预测">&#xe723;</i>
-					        <cite>灾情智能预测</cite>
+					        <i class="iconfont left-nav-li" lay-tips="群智感知灾情">&#xe723;</i>
+					        <cite>群智感知灾情</cite>
 					        <i class="iconfont nav_right">&#xe697;</i></a>
 					    <ul class="sub-menu">
 							<li>
@@ -341,7 +343,7 @@
 							        <cite>基于舆情数据的预测</cite></a>
 							</li>
 					        <li>
-					            <a onclick="xadmin.add_tab('基于通信数据的预测','predictcomdata.html')">
+					            <a onclick="xadmin.add_tab('基于通信数据的预测','telepredict.html')">
 					                <i class="iconfont">&#xe6a7;</i>
 					                <cite>基于通信数据的预测</cite></a>
 					        </li>
@@ -418,7 +420,7 @@
 					var $ = layui.jquery;
 					var layer = layui.layer;
 					
-					var URLInterpreter = "http://10.5.103.127:5001";
+					var URLInterpreter = "http://localhost:5001";
 					
 					$.ajax({
 								url: URLInterpreter+'/v1/user/permission',
