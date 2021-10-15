@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+  <meta charset="utf-8">
+  <title>个人信息</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="./layui/css/layui.css"  media="all">
+  <link rel="stylesheet" href="./css/font.css">
+  <link rel="stylesheet" href="./css/xadmin.css">
+  <script type="text/javascript" src="./js/xadmin.js"></script>
+	</head>
+	<body>
+		<div class="layui-fluid">
+		    <div class="layui-row">
+		        <form class="layui-form">
+					 <div class="layui-form-item">
+					     <label for="username" class="layui-form-label" style="width:120px">
+					         <span class="x-red"></span>用户名:</label>
+					     <div class="layui-input-block">
+					             <label id="username" class="layui-form-label" style="width:200px;text-align:left" ></label>
+					           </div>
+					 </div>
+					 <div class="layui-form-item">
+					     <label for="registerDate" class="layui-form-label" style="width:120px">
+					         <span class="x-red"></span>注册时间:</label>
+					     <div class="layui-input-block">
+					             <label id="registerDate" class="layui-form-label" style="width:200px;text-align:left"></label>
+					           </div>
+					 </div>
+					 <div class="layui-form-item">
+					     <label for="lastLoginDate" class="layui-form-label" style="width:120px">
+					         <span class="x-red"></span>上一次的登录时间:</label>
+					     <div class="layui-input-block">
+					             <label id="lastLoginDate" class="layui-form-label" style="width:200px;text-align:left"></label>
+					           </div>
+					 </div>
+					 <div class="layui-form-item">
+					     <label for="loginCount" class="layui-form-label" style="width:120px">
+					         <span class="x-red"></span>登录总次数:</label>
+					     <div class="layui-input-block">
+					             <label id="loginCount" class="layui-form-label" style="width:200px;text-align:left"></label>
+					           </div>
+					 </div>
+					 <div class="layui-form-item">
+					     <label for="userType" class="layui-form-label" style="width:120px">
+					         <span class="x-red"></span>用户类型:</label>
+					     <div class="layui-input-block">
+					             <label id="userType" class="layui-form-label" style="width:200px;text-align:left"></label>
+					           </div>
+					 </div>
+					 </form>
+					 </div>
+					 </div>
+		<script src="./layui/layui.js" charset="utf-8"></script>
+		
+		<script>
+			layui.use(['form','layer'], function(){
+			var $ = layui.jquery;
+			var form = layui.form;
+			var layer = layui.layer;
+			var URLInterpreter = "http://10.5.103.127:5001";
+			
+			var json = window.localStorage.getItem("user");
+			var jsonObj = JSON.parse(json);
+			$("#username").text(jsonObj.username);
+			$("#registerDate").text(jsonObj.registerDate);
+			$("#lastLoginDate").text(jsonObj.lastLoginDate);
+			$("#loginCount").text(jsonObj.loginCount);
+			var tuserType = jsonObj.userType;
+			if(tuserType === "1")
+			$("#userType").text("系统管理员");
+			else if(tuserType === "2")
+			$("#userType").text("数据操作员");
+			
+			})
+			
+		</script>
+
+	</body>
+</html>

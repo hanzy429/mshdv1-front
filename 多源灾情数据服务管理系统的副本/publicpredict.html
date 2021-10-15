@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="UTF-8">
+        <title>灾情预测</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+        <link rel="stylesheet" href="./css/font.css">
+        <link rel="stylesheet" href="./css/xadmin.css">
+		<link rel="stylesheet" href="./layui/css/layui.css"  media="all">
+		<script src="./layui/layui.js" charset="utf-8"></script>
+        <!-- <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script> -->
+        <script type="text/javascript" src="./js/xadmin.js"></script>
+	</head>
+	<body>
+		<div class="layui-fluid">
+		    <div class="layui-row">
+		        <form class="layui-form">
+					<div class="layui-form-item">
+					    <label for="keyword" class="layui-form-label">
+					        <span class="x-red">*</span>关键字</label>
+					    <div class="layui-input-inline">
+					        <input type="text" id="keyword" name="keyword" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
+					</div>
+		            <div class="layui-form-item">
+		                <label for="startdate" class="layui-form-label">
+		                    <span class="x-red">*</span>开始时间</label>
+		                <div class="layui-input-block">
+		                        <input type="text" name="startdate" id="startdate" autocomplete="off" class="layui-input">
+		                      </div>
+		            </div>
+					<div class="layui-form-item">
+					    <label for="enddate" class="layui-form-label">
+					        <span class="x-red">*</span>结束时间</label>
+					    <div class="layui-input-block">
+					            <input type="text" name="enddate" id="enddate" autocomplete="off" class="layui-input">
+					          </div>
+					</div>
+		            
+
+		<div class="layui-form-item">
+		    <div class="layui-input-block" id="fa">
+			<div id="Status"></div>
+			<div id="Text"></div>
+		      <button type="submit" class="layui-btn" lay-submit="" lay-filter="submit" onClick="return false">开始爬虫</button>		  
+		      <button type="button" class="layui-btn" onclick="prediction()">开始分析</button>
+		    </div>
+		  </div>
+		</form>
+		<button class="layui-btn" onclick="xadmin.open('查看舆情热力图','./publicanalysis.html',700,444)" type="button" style="margin-left: 110px;">查看舆情热力图</button>
+		</div>
+		</div>
+		<script>
+			var getspstuatus
+			var statustext
+			function getSpiderStatus(){
+				var URL = 'http://10.5.103.127:3002';
+				$.ajax({
+					url: URL+'/api/getSpiderStatus',
+					method:'GET',
+					contentType:'application/json;charset=utf-8',
+					// success:function(res){
+					//                     if(res.analysisRes!== null){
+					// 					console.log("1")
+					// 					// window.location.reload();
+					// 					//xadmin.father_reload();
+					// 					//layer.alert("添加成功！");
+					// 					clearInterval(myVar);
+					// 					alert("本次地震的烈度为："+res.analysisRes);
+					//                     }
+					//                 }
+					success:function(res){
+					                    if(res.status=== 'END'){
+										console.log("1")
+										// window.location.reload();
+										//xadmin.father_reload();
+										//layer.alert("添加成功！");
+										clearInterval(getspstuatus);
+										$("#Status").remove();
+										$("#Text").remove();
+										var div1 = document.createElement('div');
+										div1.id="Text";
+										div1.style.cssText = 'width:px;margin: 50px;';
+										div1.innerHTML = '爬虫已完成 ';
+										document.getElementById("fa").appendChild(div1);
+										
+										var div = document.createElement('div');
+										div.id="Status";
+										div.style.cssText = 'width:px;';
+										//div.setAttribute("class", "layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop");
+										document.getElementById("Text").appendChild(div);
+										//alert("爬虫已完成！");
+					                    }
+					                }
+				})
+			}
+			layui.use(['form', 'layer', 'laydate', 'slider', 'upload'],
+		    function() {
+		        var $ = layui.jquery;
+		        var form = layui.form;
+		        var layer = layui.layer;
+				var laydate = layui.laydate;
+				var slider = layui.slider;
+				var upload = layui.upload;
+				var picpath = null;
+				var URL = 'http://10.5.103.127:3002';
+				// var uploadUrl = 'http://10.5.103.127:8001';
+				var URLInterpreter = "http://10.5.103.127:5001";
+				// var URL = 'http://39.99.228.199:8006';
+				// var uploadUrl = 'http://39.99.228.199:8001';
+				
+				
+				$.ajax({
+							url: URLInterpreter+'/v1/user/permission',
+							type: 'get',
+							xhrFields:{
+							    withCredentials:true
+							},
+							success:function(res){
+											if(res.code== 0){
+				
+				
+				//日期
+				 laydate.render({
+				    elem: '#startdate',
+					type: 'datetime'
+				  });
+				  laydate.render({
+				    elem: '#enddate',
+				  	type: 'datetime'
+				   });
+				  
+				  
+				//普通图片上传
+		
+		        //监听提交
+		        form.on('submit(submit)',
+		        function(data) {
+					var startdate = $("#startdate").val();
+					var enddate = $("#enddate").val();
+					var keyword = $("#keyword").val();
+					var t1 = new Date(startdate);
+					var t2 = new Date(enddate);
+					if (t1 > t2) {
+					        layer.alert("结束时间不能小于开始时间!");
+					        //return false;
+					    }
+						else{
+							var total=(t2.getTime()-t1.getTime())/1000;
+							var hourcut =parseInt(total/(60*60));
+							if(hourcut<1){
+								layer.alert("结束时间与开始时间差应大于一小时!");
+							}
+							else{
+								var data =  {
+									"keyword": keyword,
+									"startTime": startdate,
+									"endTime": enddate,
+									};
+								var formdata=data;
+								console.log(formdata)
+								formdata.startTime=data.startTime.split(" ")[0] +
+								"-" +
+								data.startTime.split(" ")[1].split(":")[0];
+								formdata.endTime=data.endTime.split(" ")[0] +
+								"-" +
+								data.endTime.split(" ")[1].split(":")[0];
+								console.log(formdata.endTime);
+								console.log(formdata)
+								$.ajax({
+									url: URL+'/api/changeConfig',
+									method: 'POST',
+								    contentType:'application/json;charset=utf-8',
+								    data: JSON.stringify(formdata),
+									dataType: 'json',
+									success:function(res){
+									                    if(res.code=== 'OK'){
+														// window.location.reload();
+														//xadmin.father_reload();
+														//layer.alert("添加成功！");
+														$.ajax({
+															url: URL+'/api/executeSpider',
+															method:'POST',
+															contentType:'application/json;charset=utf-8',
+														})
+														getspstuatus= setInterval(function(){ getSpiderStatus() }, 1000);
+														// if(document.getElementById("Status")!=null)
+														//   document.body.removeChild(document.getElementById("Status"));
+														$("#Status").remove();
+														$("#Text").remove();
+														var div1 = document.createElement('div');
+														div1.id="Text";
+														div1.style.cssText = 'width:px;margin: 50px;';
+														div1.innerHTML = '爬虫运行中请稍后 ';
+														document.getElementById("fa").appendChild(div1);
+														
+														var div = document.createElement('div');
+														div.id="Status";
+														div.style.cssText = 'width:px;';
+														div.setAttribute("class", "layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop");
+														document.getElementById("Text").appendChild(div);
+									                    }
+									                    else{
+									                    layer.alert("添加失败！");}
+									                },
+									error:function(data){
+									layer.alert("服务器繁忙，添加失败！");
+									}
+											  
+								});
+							}
+						}
+
+					
+		            // console.log(data);
+		            // //发异步，把数据提交给php
+		            // layer.alert("增加成功", {
+		            //     icon: 6
+		            // },
+		            // function() {
+		            //     // 获得frame索引
+		            //     var index = parent.layer.getFrameIndex(window.name);
+		            //     //关闭当前frame
+		            //     parent.layer.close(index);
+		            // });
+		            // return false;
+		        });
+				
+				}//用户校验
+										    else{
+										        window.location.href="./login.html";}
+				},
+							error:function(data){
+										alert(JSON.stringify(data));
+										}
+												  
+									});
+		
+		    });</script>
+		<script>var _hmt = _hmt || []; (function() {
+		        var hm = document.createElement("script");
+		        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+		        var s = document.getElementsByTagName("script")[0];
+		        s.parentNode.insertBefore(hm, s);
+		    })();</script>
+			<script>
+				var URL = 'http://10.5.103.127:3002';
+				var myVar=''
+				function prediction(){
+					$.ajax({
+						url: URL+'/api/getlist',
+						method:'GET',
+						contentType:'application/json;charset=utf-8',
+						success:function(res){
+									console.log(res);
+									if(res.length===0){
+										$("#Status").remove();
+										$("#Text").remove();
+										var div1 = document.createElement('div');
+										div1.id="Text";
+										div1.style.cssText = 'width:px;margin: 50px;';
+										div1.innerHTML = '正在分析请稍后 ';
+										document.getElementById("fa").appendChild(div1);
+										
+										var div = document.createElement('div');
+										div.id="Status";
+										div.style.cssText = 'width:px;';
+										div.setAttribute("class", "layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop");
+										document.getElementById("Text").appendChild(div);
+										setTimeout("add()",1000);
+									}
+									else
+									{
+										$.ajax({
+											url: URL+'/api/startIntensity',
+											method:'POST',
+											contentType:'application/json;charset=utf-8',
+										})
+										myVar= setInterval(function(){ getRes() }, 1000);
+										$("#Status").remove();
+										$("#Text").remove();
+										var div1 = document.createElement('div');
+										div1.id="Text";
+										div1.style.cssText = 'width:px;margin: 50px;';
+										div1.innerHTML = '正在分析请稍后 ';
+										document.getElementById("fa").appendChild(div1);
+										
+										var div = document.createElement('div');
+										div.id="Status";
+										div.style.cssText = 'width:px;';
+										div.setAttribute("class", "layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop");
+										document.getElementById("Text").appendChild(div);
+										//alert("爬虫已完成！");
+									}
+									
+									
+										},
+										
+										
+										
+					})
+					
+					
+					
+					
+				}
+				 function sleep(n) {
+				        var start = new Date().getTime();
+				        //  console.log('休眠前：' + start);
+				        while (true) {
+				            if (new Date().getTime() - start > n) {
+				                break;
+				            }
+				        }
+				        // console.log('休眠后：' + new Date().getTime());
+				    }
+					function add(){
+						sleep(2000);
+						$("#Status").remove();
+						$("#Text").remove();
+						var div2 = document.createElement('div');
+						div2.id="Text";
+						div2.style.cssText = 'width:px;margin: 50px;';
+						div2.innerHTML = '本次烈度为5级';
+						document.getElementById("fa").appendChild(div2);
+					}
+				function getRes(){
+					$.ajax({
+						url: URL+'/api/getAnalysisRes',
+						method:'GET',
+						contentType:'application/json;charset=utf-8',
+						success:function(res){
+						                    if(res.analysisRes!== null){
+											console.log("1")
+											// window.location.reload();
+											//xadmin.father_reload();
+											//layer.alert("添加成功！");
+											clearInterval(myVar);
+											$("#Status").remove();
+											$("#Text").remove();
+											var div1 = document.createElement('div');
+											div1.id="Text";
+											div1.style.cssText = 'width:px;margin: 50px;';
+											div1.innerHTML = '本次地震烈度为： ';
+											document.getElementById("fa").appendChild(div1);
+											
+											var div = document.createElement('div');
+											div.id="Status";
+											div.style.cssText = 'width:px;';
+											div.innerHTML = res.analysisRes;
+											//div.setAttribute("class", "layui-icon layui-icon-loading layui-anim layui-anim-rotate layui-anim-loop");
+											document.getElementById("Text").appendChild(div);
+											//alert("爬虫已完成！");
+											//alert("本次地震的烈度为："+res.analysisRes);
+						                    }
+						                }
+					})
+					
+				}
+			</script>
+	</body>
+</html>

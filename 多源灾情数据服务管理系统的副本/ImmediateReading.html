@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="./layui/css/layui.css"  media="all">
+  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body>
+ 
+<form class="layui-form">
+    <div class="layui-form-item">
+      <label class="layui-form-label">读取目录</label>
+      <div class="layui-input-block">
+              <select name="source" lay-filter="source" id="source" lay-verify="required">
+		    	<option value="" ></option> 
+		        <option value="101">公网</option>
+		        <option value="102">北斗短报文</option>
+		        <option value="103">卫星通讯</option>
+		        <option value="104">卫星定位</option>
+		        <option value="105">专用救灾（例如车载通信）</option>
+		        <option value="106">其他</option>
+		    	<option value="201">互联网</option>
+		    	<option value="202">通信网</option>
+		    	<option value="203">电网</option>
+		    	<option value="204">其他</option>
+		    	<option value="301">微博</option>
+		    	<option value="302">博客</option>
+		    	<option value="303">论坛</option>
+		    	<option value="304">微信</option>
+		    	<option value="305">其他</option>
+		    	<option value="401">川滇</option>
+		    	<option value="402">其他</option>
+		    	<option value="501">1-其他</option>
+		    	<option value="502">2-其他</option>
+		    	<option value="503">3-其他</option>    	
+		      </select>
+      </div>
+    </div>
+  <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button type="submit" class="layui-btn" lay-submit=""  lay-filter="sourceSubmit" onClick="return false">读取</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+      </div>
+    </div>
+</form>
+ 
+          
+<script src="./layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+layui.use(['form', 'layer'], function(){
+  var form = layui.form
+  ,layer = layui.layer
+  ,$ = layui.jquery;
+  var URL = 'http://10.5.103.127:8001';
+  var URLInterpreter = "http://10.5.103.127:5001";
+  // var URL = 'http://39.99.228.199:8001';
+  
+  
+  $.ajax({
+  			url: URLInterpreter+'/v1/user/permission',
+  			type: 'get',
+  			xhrFields:{
+  			    withCredentials:true
+  			},
+  			success:function(res){
+  							if(res.code== 0){
+  //监听提交
+    form.on('submit(sourceSubmit)', function(data){
+			var source = data.field.source;
+			// console.log(source);
+					$.ajax({
+						url: URL+'/v1/realTimeFile/'+source,
+						type: 'post',
+						success:function(res){
+							if(res.code== 0){
+								layer.alert("即时读取成功！");}
+						    else
+						        layer.alert("即时读取失败！");
+      },
+						error:function(data){
+						alert(JSON.stringify(data));
+						}
+								  
+					});
+    });
+	
+	}
+							    else{
+							        window.location.href="./login.html";}
+	},
+				error:function(data){
+							alert(JSON.stringify(data));
+							}
+									  
+						});
+ 
+  // //表单赋值
+  // layui.$('#LAY-component-form-setval').on('click', function(){
+  //   form.val('example', {
+  //     "sex": "女"
+  //   });
+  // });
+  
+  // //表单取值
+  // layui.$('#LAY-component-form-getval').on('click', function(){
+  //   var data = form.val('example');
+  //   alert(JSON.stringify(data));
+  // });
+  
+});
+</script>
+
+
+</body>
+</html>

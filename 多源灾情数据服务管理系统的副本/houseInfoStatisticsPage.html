@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html>
+ <head> 
+  <meta charset="utf-8" /> 
+  <title>灾情房屋数据统计展示</title> 
+  <meta name="renderer" content="webkit" /> 
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /> 
+  <link rel="stylesheet" href="./layui/css/layui.css" media="all" /> 
+ </head> 
+ <body> 
+  <div class="layui-fluid"> 
+   <div class="layui-row layui-col-space15"> 
+    <div class="layui-col-sm12 layui-col-md6"> 
+     <div class="layui-card"> 
+      <div class="layui-card-header"></div> 
+      <div class="layui-card-body" style="min-height: 280px;"> 
+       <div id="container1" class="layui-col-sm12" style="height: 300px;"></div> 
+      </div> 
+     </div> 
+    </div> 
+    <div class="layui-col-sm12 layui-col-md6"> 
+     <div class="layui-card"> 
+      <div class="layui-card-header"></div> 
+      <div class="layui-card-body" style="min-height: 280px;"> 
+       <div id="container2" class="layui-col-sm12" style="height: 300px;"></div> 
+      </div> 
+     </div> 
+    </div> 
+    <div class="layui-col-sm12 layui-col-md6"> 
+     <div class="layui-card"> 
+      <div class="layui-card-header"></div> 
+      <div class="layui-card-body" style="min-height: 280px;"> 
+       <div id="container3" class="layui-col-sm12" style="height: 300px;"></div> 
+      </div> 
+     </div> 
+    </div> 
+    <div class="layui-col-sm12 layui-col-md6"> 
+     <div class="layui-card"> 
+      <div class="layui-card-header"></div> 
+      <div class="layui-card-body" style="min-height: 280px;"> 
+       <div id="container4" class="layui-col-sm12" style="height: 300px;"></div> 
+      </div> 
+     </div> 
+    </div> 
+    <div class="layui-col-sm12 layui-col-md6"> 
+     <div class="layui-card"> 
+      <div class="layui-card-header"></div> 
+      <div class="layui-card-body" style="min-height: 280px;"> 
+       <div id="container5" class="layui-col-sm12" style="height: 300px;"></div> 
+      </div> 
+     </div> 
+    </div> 
+    <div class="layui-col-sm12 layui-col-md6"> 
+     <div class="layui-card"> 
+      <div class="layui-card-header"></div> 
+      <div class="layui-card-body" style="min-height: 280px;"> 
+       <div id="container6" class="layui-col-sm12" style="height: 300px;"></div> 
+      </div> 
+     </div> 
+    </div> 
+    <div class="layui-col-sm12 layui-col-md6"> 
+     <div class="layui-card"> 
+      <div class="layui-card-header"></div> 
+      <div class="layui-card-body" style="min-height: 280px;"> 
+       <div id="container7" class="layui-col-sm12" style="height: 300px;"></div> 
+      </div> 
+     </div> 
+    </div> 
+    <div class="layui-col-sm12 layui-col-md6"> 
+     <div class="layui-card"> 
+      <div class="layui-card-header"></div> 
+      <div class="layui-card-body" style="min-height: 280px;"> 
+       <div id="container8" class="layui-col-sm12" style="height: 300px;"></div> 
+      </div> 
+     </div> 
+    </div> 
+    <div class="layui-col-sm12 layui-col-md6"> 
+     <div class="layui-card"> 
+      <div class="layui-card-header"></div> 
+      <div class="layui-card-body" style="min-height: 280px;"> 
+       <div id="container9" class="layui-col-sm12" style="height: 300px;"></div> 
+      </div> 
+     </div> 
+    </div> 
+    <div class="layui-col-sm12 layui-col-md6"> 
+     <div class="layui-card"> 
+      <div class="layui-card-header"></div> 
+      <div class="layui-card-body" style="min-height: 280px;"> 
+       <div id="container10" class="layui-col-sm12" style="height: 300px;"></div> 
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+  </div>  
+  <script src="./layui/layui.js" charset="utf-8"></script> 
+        <!-- <script src="http://api.map.baidu.com/api?v=2.0&ak=lwP645LnT0EubseWq32Z9xWapMeaNxgB"></script> -->
+		<script type="text/javascript" src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+		<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.0.1/dist/extension/bmap.js"></script> -->
+  <script type="text/javascript">
+			layui.use('jquery', function(){
+			var $ = layui.$;   
+			var URL = 'http://10.5.103.127:9006';
+			var URLInterpreter = "http://10.5.103.127:5001";
+			// var URL = 'http://39.99.228.199:9006';
+			var dataForProv=[]
+			var dataForPie = []
+			var obj;
+			
+			
+			$.ajax({
+						url: URLInterpreter+'/v1/user/permission',
+						type: 'get',
+						xhrFields:{
+						    withCredentials:true
+						},
+						success:function(res){
+										if(res.code== 0){
+			//改用promise封装ajax
+			new Promise(function (resolve, reject){
+		    $.ajax({
+					url: URL+'/v1/lastCivilStructureByTime',
+					method: 'get',
+					success:function(res){
+							   	            if(res.code === 0)
+							   				{
+							   					//对柱形图准备数据
+							   					var xdata = [];
+							   					var ydata = [];
+												var ydata1 = [];
+												var yMax = 0 ;
+							   					
+							   					for (var i = 0;i < res.count ; i++)
+												{
+							   						xdata.push(res.data[i].date);
+							   						
+							   						ydata.push(res.data[i].square);
+							   						
+													ydata1.push(yMax);
+													
+													yMax += res.data[i].square;
+							 
+							   					};
+												
+							   					
+							   					obj = new Object();
+							   					obj.value = yMax;
+							   					obj.name = '土木';
+							   					dataForPie.push(obj);
+
+							   					var dom = document.getElementById("container1");
+							   					var myChart = echarts.init(dom);
+							   					option = {
+							   								title : {
+							   											text: '最新一次地震土木结构房屋破坏统计图'
+							   										},
+							   								legend: {},
+							   								tooltip:{
+																        trigger: 'axis',
+																        axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+																            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+																        },
+																        formatter: function (params) {
+																            var tar;
+																            
+																            tar = params[1];
+																             
+																            return '增加：'+'<br/>' + tar.value+'(m²)';
+																        }
+															},
+							   								toolbox:{
+							   											show: true,
+							   											orient : 'vertical',
+							   											left: 'right',
+							   											top: 'center',
+							   											feature : {
+							   												           mark : {},
+							   												           //dataView : {readOnly: false},
+							   												           //restore : {},
+							   												           //saveAsImage : {}
+							   												       }
+							   										},
+							   								xAxis: {
+							   													type: 'category',
+							   													data: xdata
+							   												   },
+							   								yAxis: {
+							   													type: 'value'
+							   												   },
+							   								series: [
+							   													            {
+							   													                
+							   													                type: 'bar',
+							   													                stack: '总量',
+							   													                itemStyle: {
+							   													                    barBorderColor: 'rgba(0,0,0,0)',
+							   													                    color: 'rgba(0,0,0,0)'
+							   													                },
+							   													                emphasis: {
+							   													                    itemStyle: {
+							   													                        barBorderColor: 'rgba(0,0,0,0)',
+							   													                        color: 'rgba(0,0,0,0)'
+							   													                    }
+							   													                },
+							   													                data: ydata1
+							   													            },
+							   													  {
+							   													              
+							   													              type: 'bar',
+							   													              stack: '总量',
+																							  itemStyle: {
+																							      color: new echarts.graphic.LinearGradient(
+																							          0, 0, 0, 1,
+																							          [
+																							              {offset: 0, color: '#A0D9E7'},
+																							              {offset: 0.5, color: '#4EB9D3'},
+																							              {offset: 1, color: '#298BA3'}
+																							          ]
+																							      )
+																							  },
+							   													              data: ydata
+							   													          },
+							   											       ]
+							   										   }
+							   										   if (option && typeof option === "object") {
+							   										       myChart.setOption(option, true);
+							   										   }
+							   									}
+							   	                    else
+							   	                        alert(res.msg);
+														resolve();
+							   	                },
+							   	error:function(data){
+							   	layer.alert("服务器繁忙");
+								reject();
+							   	}
+							   });
+							   }).then(
+							   new Promise(function (resolve, reject){
+							   $.ajax({
+							   		url: URL+'/v1/lastBrickwoodStructureByTime',
+							   		method: 'get',
+							   		success:function(res){
+							   				   	            if(res.code === 0)
+							   				   				{
+							   				   										// console.log(res.data);
+							   				   					var xdata = [];
+							   				   					var ydata = [];
+							   									var ydata1 = [];
+							   									var yMax = 0 ;
+							   				   										
+							   				   					for (var i = 0;i < res.count ; i++)
+							   									{
+							   				   						xdata.push(res.data[i].date);
+							   				   						
+							   				   						ydata.push(res.data[i].square);
+							   				   						
+							   										ydata1.push(yMax);
+							   										
+							   										yMax += res.data[i].square;
+							   				 
+							   				   					};
+							   									
+							   				   					
+							   				   					obj = new Object();
+							   				   					obj.value = yMax;
+							   				   					obj.name = '砖木';
+							   				   					dataForPie.push(obj);
+							   				   										// console.log(dataShadow);
+							   				   										// console.log(xdata);
+							   				   										// console.log(ydata);
+							   				   					var dom = document.getElementById("container3");
+							   				   					var myChart = echarts.init(dom);
+							   				   					option = {
+							   				   								title : {
+							   				   											text: '最新一次地震砖木结构房屋破坏统计图'
+							   				   										},
+							   				   								legend: {},
+							   				   								tooltip:{
+							   													        trigger: 'axis',
+							   													        axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+							   													            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+							   													        },
+							   													        formatter: function (params) {
+							   													            var tar;
+							   													            
+							   													            tar = params[1];
+							   													             
+							   													            return '增加：'+'<br/>' + tar.value+'(m²)';
+							   													        }
+							   												},
+							   				   								toolbox:{
+							   				   											show: true,
+							   				   											orient : 'vertical',
+							   				   											left: 'right',
+							   				   											top: 'center',
+							   				   											feature : {
+							   				   												           mark : {},
+							   				   												           //dataView : {readOnly: false},
+							   				   												           //restore : {},
+							   				   												           //saveAsImage : {}
+							   				   												       }
+							   				   										},
+							   				   											xAxis: {
+							   				   													type: 'category',
+							   				   													data: xdata
+							   				   												   },
+							   				   											yAxis: {
+							   				   													type: 'value'
+							   				   												   },
+							   				   											series: [
+							   				   													            {
+							   				   													                
+							   				   													                type: 'bar',
+							   				   													                stack: '总量',
+							   				   													                itemStyle: {
+							   				   													                    barBorderColor: 'rgba(0,0,0,0)',
+							   				   													                    color: 'rgba(0,0,0,0)'
+							   				   													                },
+							   				   													                emphasis: {
+							   				   													                    itemStyle: {
+							   				   													                        barBorderColor: 'rgba(0,0,0,0)',
+							   				   													                        color: 'rgba(0,0,0,0)'
+							   				   													                    }
+							   				   													                },
+							   				   													                data: ydata1
+							   				   													            },
+							   				   													  {
+							   				   													              
+							   				   													              type: 'bar',
+							   				   													              stack: '总量',
+							   																				  itemStyle: {
+							   																				      color: new echarts.graphic.LinearGradient(
+							   																				          0, 0, 0, 1,
+							   																				          [
+							   																				              {offset: 0, color: '#EEBBC5'},
+							   																				              {offset: 0.5, color: '#CC3352'},
+							   																				              {offset: 1, color: '#6D1B2C'}
+							   																				          ]
+							   																				      )
+							   																				  },
+							   				   													              data: ydata
+							   				   													          },
+							   				   											       ]
+							   				   										   }
+							   				   										   if (option && typeof option === "object") {
+							   				   										       myChart.setOption(option, true);
+							   				   										   }
+							   				   									}
+							   				   	                    else
+							   				   	                        alert(res.msg);
+							   											resolve();
+							   				   	                },
+							   				   	error:function(data){
+							   				   	layer.alert("服务器繁忙");
+							   					reject();
+							   				   	}
+							   				   });
+							   				   }).then(
+											   new Promise(function (resolve, reject){
+											   $.ajax({
+											   		url: URL+'/v1/lastMasonryStructureByTime',
+											   		method: 'get',
+											   		success:function(res){
+											   				   	            if(res.code === 0)
+											   				   				{
+											   				   										// console.log(res.data);
+											   				   					var xdata = [];
+											   				   					var ydata = [];
+											   									var ydata1 = [];
+											   									var yMax = 0 ;
+											   				   										
+											   				   					for (var i = 0;i < res.count ; i++)
+											   									{
+											   				   						xdata.push(res.data[i].date);
+											   				   						
+											   				   						ydata.push(res.data[i].square);
+											   				   						
+											   										ydata1.push(yMax);
+											   										
+											   										yMax += res.data[i].square;
+											   				 
+											   				   					};
+											   									
+											   				   					
+											   				   					obj = new Object();
+											   				   					obj.value = yMax;
+											   				   					obj.name = '砖混';
+											   				   					dataForPie.push(obj);
+											   				   										// console.log(dataShadow);
+											   				   										// console.log(xdata);
+											   				   										// console.log(ydata);
+											   				   					var dom = document.getElementById("container5");
+											   				   					var myChart = echarts.init(dom);
+											   				   					option = {
+											   				   								title : {
+											   				   											text: '最新一次地震砖混结构房屋破坏统计图'
+											   				   										},
+											   				   								legend: {},
+											   				   								tooltip:{
+											   													        trigger: 'axis',
+											   													        axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+											   													            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+											   													        },
+											   													        formatter: function (params) {
+											   													            var tar;
+											   													            
+											   													            tar = params[1];
+											   													             
+											   													            return '增加：'+'<br/>' + tar.value+'(m²)';
+											   													        }
+											   												},
+											   				   								toolbox:{
+											   				   											show: true,
+											   				   											orient : 'vertical',
+											   				   											left: 'right',
+											   				   											top: 'center',
+											   				   											feature : {
+											   				   												           mark : {},
+											   				   												           //dataView : {readOnly: false},
+											   				   												           //restore : {},
+											   				   												           //saveAsImage : {}
+											   				   												       }
+											   				   										},
+											   				   											xAxis: {
+											   				   													type: 'category',
+											   				   													data: xdata
+											   				   												   },
+											   				   											yAxis: {
+											   				   													type: 'value'
+											   				   												   },
+											   				   											series: [
+											   				   													            {
+											   				   													                
+											   				   													                type: 'bar',
+											   				   													                stack: '总量',
+											   				   													                itemStyle: {
+											   				   													                    barBorderColor: 'rgba(0,0,0,0)',
+											   				   													                    color: 'rgba(0,0,0,0)'
+											   				   													                },
+											   				   													                emphasis: {
+											   				   													                    itemStyle: {
+											   				   													                        barBorderColor: 'rgba(0,0,0,0)',
+											   				   													                        color: 'rgba(0,0,0,0)'
+											   				   													                    }
+											   				   													                },
+											   				   													                data: ydata1
+											   				   													            },
+											   				   													  {
+											   				   													              
+											   				   													              type: 'bar',
+											   				   													              stack: '总量',
+											   																				  itemStyle: {
+											   																				      color: new echarts.graphic.LinearGradient(
+											   																				          0, 0, 0, 1,
+											   																				          [
+											   																				              {offset: 0, color: '#D4C0B4'},
+											   																				              {offset: 0.5, color: '#A2795E'},
+											   																				              {offset: 1, color: '#4C382C'}
+											   																				          ]
+											   																				      )
+											   																				  },
+											   				   													              data: ydata
+											   				   													          },
+											   				   											       ]
+											   				   										   }
+											   				   										   if (option && typeof option === "object") {
+											   				   										       myChart.setOption(option, true);
+											   				   										   }
+											   				   									}
+											   				   	                    else
+											   				   	                        alert(res.msg);
+											   											resolve();
+											   				   	                },
+											   				   	error:function(data){
+											   				   	layer.alert("服务器繁忙");
+											   					reject();
+											   				   	}
+											   				   });
+											   				   }).then(											   new Promise(function (resolve, reject){
+											   $.ajax({
+											   		url: URL+'/v1/lastFrameworkStructureByTime',
+											   		method: 'get',
+											   		success:function(res){
+											   				   	            if(res.code === 0)
+											   				   				{
+											   				   										// console.log(res.data);
+											   				   					var xdata = [];
+											   				   					var ydata = [];
+											   									var ydata1 = [];
+											   									var yMax = 0 ;
+											   				   										
+											   				   					for (var i = 0;i < res.count ; i++)
+											   									{
+											   				   						xdata.push(res.data[i].date);
+											   				   						
+											   				   						ydata.push(res.data[i].square);
+											   				   						
+											   										ydata1.push(yMax);
+											   										
+											   										yMax += res.data[i].square;
+											   				 
+											   				   					};
+											   									
+											   				   					
+											   				   					obj = new Object();
+											   				   					obj.value = yMax;
+											   				   					obj.name = '框架';
+											   				   					dataForPie.push(obj);
+											   				   										// console.log(dataShadow);
+											   				   										// console.log(xdata);
+											   				   										// console.log(ydata);
+											   				   					var dom = document.getElementById("container7");
+											   				   					var myChart = echarts.init(dom);
+											   				   					option = {
+											   				   								title : {
+											   				   											text: '最新一次地震框架结构房屋破坏统计图'
+											   				   										},
+											   				   								legend: {},
+											   				   								tooltip:{
+											   													        trigger: 'axis',
+											   													        axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+											   													            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+											   													        },
+											   													        formatter: function (params) {
+											   													            var tar;
+											   													            
+											   													            tar = params[1];
+											   													             
+											   													            return '增加：'+'<br/>' + tar.value+'(m²)';
+											   													        }
+											   												},
+											   				   								toolbox:{
+											   				   											show: true,
+											   				   											orient : 'vertical',
+											   				   											left: 'right',
+											   				   											top: 'center',
+											   				   											feature : {
+											   				   												           mark : {},
+											   				   												           //dataView : {readOnly: false},
+											   				   												           //restore : {},
+											   				   												           //saveAsImage : {}
+											   				   												       }
+											   				   										},
+											   				   											xAxis: {
+											   				   													type: 'category',
+											   				   													data: xdata
+											   				   												   },
+											   				   											yAxis: {
+											   				   													type: 'value'
+											   				   												   },
+											   				   											series: [
+											   				   													            {
+											   				   													                
+											   				   													                type: 'bar',
+											   				   													                stack: '总量',
+											   				   													                itemStyle: {
+											   				   													                    barBorderColor: 'rgba(0,0,0,0)',
+											   				   													                    color: 'rgba(0,0,0,0)'
+											   				   													                },
+											   				   													                emphasis: {
+											   				   													                    itemStyle: {
+											   				   													                        barBorderColor: 'rgba(0,0,0,0)',
+											   				   													                        color: 'rgba(0,0,0,0)'
+											   				   													                    }
+											   				   													                },
+											   				   													                data: ydata1
+											   				   													            },
+											   				   													  {
+											   				   													              
+											   				   													              type: 'bar',
+											   				   													              stack: '总量',
+											   																				  itemStyle: {
+											   																				      color: new echarts.graphic.LinearGradient(
+											   																				          0, 0, 0, 1,
+											   																				          [
+											   																				              {offset: 0, color: '#B6B2C4'},
+											   																				              {offset: 0.5, color: '#8882A0'},
+											   																				              {offset: 1, color: '#474357'}
+											   																				          ]
+											   																				      )
+											   																				  },
+											   				   													              data: ydata
+											   				   													          },
+											   				   											       ]
+											   				   										   }
+											   				   										   if (option && typeof option === "object") {
+											   				   										       myChart.setOption(option, true);
+											   				   										   }
+											   				   									}
+											   				   	                    else
+											   				   	                        alert(res.msg);
+											   											resolve();
+											   				   	                },
+											   				   	error:function(data){
+											   				   	layer.alert("服务器繁忙");
+											   					reject();
+											   				   	}
+											   				   });
+											   				   }).then(											   new Promise(function (resolve, reject){
+											   $.ajax({
+											   		url: URL+'/v1/lastOtherStructureByTime',
+											   		method: 'get',
+											   		success:function(res){
+											   				   	            if(res.code === 0)
+											   				   				{
+											   				   										// console.log(res.data);
+											   				   					var xdata = [];
+											   				   					var ydata = [];
+											   									var ydata1 = [];
+											   									var yMax = 0 ;
+											   				   										
+											   				   					for (var i = 0;i < res.count ; i++)
+											   									{
+											   				   						xdata.push(res.data[i].date);
+											   				   						
+											   				   						ydata.push(res.data[i].square);
+											   				   						
+											   										ydata1.push(yMax);
+											   										
+											   										yMax += res.data[i].square;
+											   				 
+											   				   					};
+											   									
+											   				   					
+											   				   					obj = new Object();
+											   				   					obj.value = yMax;
+											   				   					obj.name = '其他';
+											   				   					dataForPie.push(obj);
+											   				   										// console.log(dataShadow);
+											   				   										// console.log(xdata);
+											   				   										// console.log(ydata);
+											   				   					var dom = document.getElementById("container9");
+											   				   					var myChart = echarts.init(dom);
+											   				   					option = {
+											   				   								title : {
+											   				   											text: '最新一次地震其他结构房屋破坏统计图'
+											   				   										},
+											   				   								legend: {},
+											   				   								tooltip:{
+											   													        trigger: 'axis',
+											   													        axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+											   													            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+											   													        },
+											   													        formatter: function (params) {
+											   													            var tar;
+											   													            
+											   													            tar = params[1];
+											   													             
+											   													            return '增加：'+'<br/>' + tar.value+'(m²)';
+											   													        }
+											   												},
+											   				   								toolbox:{
+											   				   											show: true,
+											   				   											orient : 'vertical',
+											   				   											left: 'right',
+											   				   											top: 'center',
+											   				   											feature : {
+											   				   												           mark : {},
+											   				   												           //dataView : {readOnly: false},
+											   				   												           //restore : {},
+											   				   												           //saveAsImage : {}
+											   				   												       }
+											   				   										},
+											   				   											xAxis: {
+											   				   													type: 'category',
+											   				   													data: xdata
+											   				   												   },
+											   				   											yAxis: {
+											   				   													type: 'value'
+											   				   												   },
+											   				   											series: [
+											   				   													            {
+											   				   													                
+											   				   													                type: 'bar',
+											   				   													                stack: '总量',
+											   				   													                itemStyle: {
+											   				   													                    barBorderColor: 'rgba(0,0,0,0)',
+											   				   													                    color: 'rgba(0,0,0,0)'
+											   				   													                },
+											   				   													                emphasis: {
+											   				   													                    itemStyle: {
+											   				   													                        barBorderColor: 'rgba(0,0,0,0)',
+											   				   													                        color: 'rgba(0,0,0,0)'
+											   				   													                    }
+											   				   													                },
+											   				   													                data: ydata1
+											   				   													            },
+											   				   													  {
+											   				   													              
+											   				   													              type: 'bar',
+											   				   													              stack: '总量',
+											   																				  itemStyle: {
+											   																				      color: new echarts.graphic.LinearGradient(
+											   																				          0, 0, 0, 1,
+											   																				          [
+											   																				              {offset: 0, color: '#BFDABF'},
+											   																				              {offset: 0.5, color: '#5EA25E'},
+											   																				              {offset: 1, color: '#325632'}
+											   																				          ]
+											   																				      )
+											   																				  },
+											   				   													              data: ydata
+											   				   													          },
+											   				   											       ]
+											   				   										   }
+											   				   										   if (option && typeof option === "object") {
+											   				   										       myChart.setOption(option, true);
+											   				   										   }
+											   				   									}
+											   				   	                    else
+											   				   	                        alert(res.msg);
+											   											resolve();
+											   				   	                },
+											   				   	error:function(data){
+											   				   	layer.alert("服务器繁忙");
+											   					reject();
+											   				   	}
+											   				   });
+											   				   }).then(
+															   new Promise(function (resolve, reject){
+															   $.ajax({
+															   		url: URL+'/v1/lastCivilStructure',
+															   		method: 'get',
+															   		success:function(res){
+															   				   	            if(res.code === 0)
+															   				   				{
+																								// console.log(res.data);
+															   				   					//对饼图准备数据
+																								var data = [];
+																								var data1 = 0;//基本完好面积
+																								var data2 = 0;//破坏面积
+																								var data3 = 0;//毁坏面积
+																								for(var i = 0 ;i < res.count; ++i)
+																								{
+																									data1 += res.data[i].basicallyIntactSquare;
+																									data2 += res.data[i].damagedSquare;
+																									data3 += res.data[i].destroyedSquare;
+																								}
+																								var obj = new Object();
+																								obj.name = '基本完好面积';
+																								obj.value = data1;
+																								data.push(obj);
+																								
+																								obj = new Object();
+																								obj.name = '破坏面积';
+																								obj.value = data2;
+																								data.push(obj);
+																								
+																								obj = new Object();
+																								obj.name = '毁坏面积';
+																								obj.value = data3;
+																								data.push(obj);
+																								
+																								var dom = document.getElementById("container2");
+																								   var myChart = echarts.init(dom);
+																								   option = {
+																													     title: {
+																													          text: '最新一次地震土木结构面积比例统计图',
+																													          left: 'center'
+																													      },
+																													      tooltip: {
+																													          trigger: 'item',
+																													          formatter: '{b} : {c} ({d}%)'
+																													      },
+																														  toolbox: {
+																														      show: true,
+																														      orient : 'vertical',
+																														      left: 'right',
+																														      top: 'center',
+																														      feature : {
+																														          mark : {},
+																														          //dataView : {readOnly: false},
+																														          //restore : {},
+																														          //saveAsImage : {}
+																														      }
+																														  },
+																													      legend: {
+																													          orient: 'vertical',
+																													          left: 'left',
+																													          data: ['基本完好面积', '破坏面积', '毁坏面积']
+																													      },
+																													      series: [
+																													          {
+																													              name: '土木面积数据',
+																													              type: 'pie',
+																													              radius: '55%',
+																													              center: ['50%', '50%'],
+																													              data: data,
+																													              emphasis: {
+																													                  itemStyle: {
+																													                      shadowBlur: 10,
+																													                      shadowOffsetX: 0,
+																													                      shadowColor: 'rgba(0, 0, 0, 0.5)'
+																													                  }
+																													              }
+																													          }
+																													      ]
+																								   }
+																								   if (option && typeof option === "object") {
+																								       myChart.setOption(option, true);
+																								   }
+																								
+																								
+																								
+																								
+																								
+															   				   			
+															   				   									}
+															   				   	                    else
+															   				   	                        alert(res.msg);
+															   											resolve();
+															   				   	                },
+															   				   	error:function(data){
+															   				   	layer.alert("服务器繁忙");
+															   					reject();
+															   				   	}
+															   				   });
+															   				   }).then(
+																			   new Promise(function (resolve, reject){
+																			   $.ajax({
+																			   		url: URL+'/v1/lastBrickwoodStructure',
+																			   		method: 'get',
+																			   		success:function(res){
+																			   				   	            if(res.code === 0)
+																			   				   				{
+																			   																								
+																			   				   				//对饼图准备数据
+																			   								var data = [];
+																			   								var data1 = 0;//基本完好面积
+																			   								var data2 = 0;//破坏面积
+																			   								var data3 = 0;//毁坏面积
+																			   								for(var i = 0 ;i < res.count; ++i)
+																			   								{
+																			   								data1 += res.data[i].basicallyIntactSquare;
+																			   								data2 += res.data[i].damagedSquare;
+																			   								data3 += res.data[i].destroyedSquare;
+																			   								}
+																			   								var obj = new Object();
+																			   								obj.name = '基本完好面积';
+																			   								obj.value = data1;
+																			   								data.push(obj);
+																			   																								
+																			   								obj = new Object();
+																			   								obj.name = '破坏面积';
+																			   								obj.value = data2;
+																			   								data.push(obj);
+																			   																								
+																			   								obj = new Object();
+																			   								obj.name = '毁坏面积';
+																			   								obj.value = data3;
+																			   								data.push(obj);
+																			   																								
+																			   								var dom = document.getElementById("container4");
+																			   								var myChart = echarts.init(dom);
+																			   								option = {
+																			   											title: {
+																			   													text: '最新一次地震砖木结构面积比例统计图',
+																			   													left: 'center'
+																			   													},
+																			   											tooltip: {
+																			   														trigger: 'item',
+																			   														formatter: '{b} : {c} ({d}%)'
+																			   													},
+																			   											toolbox: {
+																			   														show: true,
+																			   														orient : 'vertical',
+																			   														left: 'right',
+																			   														top: 'center',
+																			   														feature : {
+																			   																	mark : {},
+																			   																	//dataView : {readOnly: false},
+																			   																	//restore : {},
+																			   																	//saveAsImage : {}
+																			   																  }
+																			   													},
+																			   											legend: {
+																			   														orient: 'vertical',
+																			   														left: 'left',
+																			   														data: ['基本完好面积', '破坏面积', '毁坏面积']
+																			   													},
+																			   											series: [
+																			   														{
+																			   															name: '砖木面积数据',
+																			   															type: 'pie',
+																			   															radius: '55%',
+																			   															center: ['50%', '50%'],
+																			   															data: data,
+																			   															emphasis: {
+																			   															            itemStyle: {
+																			   																		            shadowBlur: 10,
+																			   																					shadowOffsetX: 0,
+																			   																					shadowColor: 'rgba(0, 0, 0, 0.5)'
+																			   																					}
+																			   																	 }
+																			   														}
+																			   													]
+																			   										}
+																			   									if (option && typeof option === "object") 
+																												{
+																			   										myChart.setOption(option, true);
+																			   									}
+																			   				   			}
+																			   				   	                    else
+																			   				   	                        alert(res.msg);
+																			   											resolve();
+																			   				   	                },
+																			   				   	error:function(data){
+																			   				   	layer.alert("服务器繁忙");
+																			   					reject();
+																			   				   	}
+																			   				   });
+																			   				   }).then(
+																			   new Promise(function (resolve, reject){
+																			   $.ajax({
+																			   		url: URL+'/v1/lastMasonryStructure',
+																			   		method: 'get',
+																			   		success:function(res){
+																						console.log(res.data);
+																			   				   	            if(res.code === 0)
+																			   				   				{
+																			   																								
+																			   				   				//对饼图准备数据
+																			   								var data = [];
+																			   								var data1 = 0;//基本完好面积
+																			   								var data2 = 0;//轻微破坏面积
+																			   								var data3 = 0;//中等破坏面积
+																											var data4 = 0;//严重破坏面积
+																											var data5 = 0;//毁坏面积
+																											
+																											
+																			   								for(var i = 0 ;i < res.count; ++i)
+																			   								{
+																			   								data1 += res.data[i].basicallyIntactSquare;
+																			   								data2 += res.data[i].slightDamagedSquare;
+																			   								data3 += res.data[i].moderateDamagedSquare;
+																											data4 += res.data[i].seriousDamagedSquare;
+																											data5 += res.data[i].destroyedSquare;
+																			   								}
+																			   								var obj = new Object();
+																			   								obj.name = '基本完好面积';
+																			   								obj.value = data1;
+																			   								data.push(obj);
+																			   																								
+																			   								obj = new Object();
+																			   								obj.name = '轻微破坏面积';
+																			   								obj.value = data2;
+																			   								data.push(obj);
+																			   																								
+																			   								obj = new Object();
+																			   								obj.name = '中等破坏面积';
+																			   								obj.value = data3;
+																			   								data.push(obj);
+																											
+																											obj = new Object();
+																											obj.name = '严重破坏面积';
+																											obj.value = data4;
+																											data.push(obj);
+																											
+																											obj = new Object();
+																											obj.name = '毁坏面积';
+																											obj.value = data5;
+																											data.push(obj);
+																											
+																											
+																			   																								
+																			   								var dom = document.getElementById("container6");
+																			   								var myChart = echarts.init(dom);
+																			   								option = {
+																			   											title: {
+																			   													text: '最新一次地震砖混结构面积比例统计图',
+																			   													left: 'center'
+																			   													},
+																			   											tooltip: {
+																			   														trigger: 'item',
+																			   														formatter: '{b} : {c} ({d}%)'
+																			   													},
+																			   											toolbox: {
+																			   														show: true,
+																			   														orient : 'vertical',
+																			   														left: 'right',
+																			   														top: 'center',
+																			   														feature : {
+																			   																	mark : {},
+																			   																	//dataView : {readOnly: false},
+																			   																	//restore : {},
+																			   																	//saveAsImage : {}
+																			   																  }
+																			   													},
+																			   											legend: {
+																			   														orient: 'vertical',
+																			   														left: 'left',
+																			   														data: ['基本完好面积', '轻微破坏面积', '中等破坏面积', '严重破坏面积', '毁坏面积']
+																			   													},
+																			   											series: [
+																			   														{
+																			   															name: '砖混面积数据',
+																			   															type: 'pie',
+																			   															radius: '55%',
+																			   															center: ['50%', '50%'],
+																			   															data: data,
+																			   															emphasis: {
+																			   															            itemStyle: {
+																			   																		            shadowBlur: 10,
+																			   																					shadowOffsetX: 0,
+																			   																					shadowColor: 'rgba(0, 0, 0, 0.5)'
+																			   																					}
+																			   																	 }
+																			   														}
+																			   													]
+																			   										}
+																			   									if (option && typeof option === "object") 
+																												{
+																			   										myChart.setOption(option, true);
+																			   									}
+																			   				   			}
+																			   				   	                    else
+																			   				   	                        alert(res.msg);
+																			   											resolve();
+																			   				   	                },
+																			   				   	error:function(data){
+																			   				   	alert("服务器繁忙");
+																			   					reject();
+																			   				   	}
+																			   				   });
+																							   }).then(
+																			   new Promise(function (resolve, reject){
+																			   $.ajax({
+																			   		url: URL+'/v1/lastFrameworkStructure',
+																			   		method: 'get',
+																			   		success:function(res){
+																			   				   	            if(res.code === 0)
+																			   				   				{
+																			   																								
+																			   				   				//对饼图准备数据
+																			   								var data = [];
+																			   								var data1 = 0;//基本完好面积
+																			   								var data2 = 0;//轻微破坏面积
+																			   								var data3 = 0;//中等破坏面积
+																											var data4 = 0;//严重破坏面积
+																											var data5 = 0;//毁坏面积
+																											
+																											
+																			   								for(var i = 0 ;i < res.count; ++i)
+																			   								{
+																			   								data1 += res.data[i].basicallyIntactSquare;
+																			   								data2 += res.data[i].slightDamagedSquare;
+																			   								data3 += res.data[i].moderateDamagedSquare;
+																											data4 += res.data[i].seriousDamagedSquare;
+																											data5 += res.data[i].destroyedSquare;
+																			   								}
+																			   								var obj = new Object();
+																			   								obj.name = '基本完好面积';
+																			   								obj.value = data1;
+																			   								data.push(obj);
+																			   																								
+																			   								obj = new Object();
+																			   								obj.name = '轻微破坏面积';
+																			   								obj.value = data2;
+																			   								data.push(obj);
+																			   																								
+																			   								obj = new Object();
+																			   								obj.name = '中等破坏面积';
+																			   								obj.value = data3;
+																			   								data.push(obj);
+																											
+																											obj = new Object();
+																											obj.name = '严重破坏面积';
+																											obj.value = data4;
+																											data.push(obj);
+																											
+																											obj = new Object();
+																											obj.name = '毁坏面积';
+																											obj.value = data5;
+																											data.push(obj);
+																											
+																											
+																			   																								
+																			   								var dom = document.getElementById("container8");
+																			   								var myChart = echarts.init(dom);
+																			   								option = {
+																			   											title: {
+																			   													text: '最新一次地震框架结构面积比例统计图',
+																			   													left: 'center'
+																			   													},
+																			   											tooltip: {
+																			   														trigger: 'item',
+																			   														formatter: '{b} : {c} ({d}%)'
+																			   													},
+																			   											toolbox: {
+																			   														show: true,
+																			   														orient : 'vertical',
+																			   														left: 'right',
+																			   														top: 'center',
+																			   														feature : {
+																			   																	mark : {},
+																			   																	//dataView : {readOnly: false},
+																			   																	//restore : {},
+																			   																	//saveAsImage : {}
+																			   																  }
+																			   													},
+																			   											legend: {
+																			   														orient: 'vertical',
+																			   														left: 'left',
+																			   														data: ['基本完好面积', '轻微破坏面积', '中等破坏面积', '严重破坏面积', '毁坏面积']
+																			   													},
+																			   											series: [
+																			   														{
+																			   															name: '框架面积数据',
+																			   															type: 'pie',
+																			   															radius: '55%',
+																			   															center: ['50%', '50%'],
+																			   															data: data,
+																			   															emphasis: {
+																			   															            itemStyle: {
+																			   																		            shadowBlur: 10,
+																			   																					shadowOffsetX: 0,
+																			   																					shadowColor: 'rgba(0, 0, 0, 0.5)'
+																			   																					}
+																			   																	 }
+																			   														}
+																			   													]
+																			   										}
+																			   									if (option && typeof option === "object") 
+																												{
+																			   										myChart.setOption(option, true);
+																			   									}
+																			   				   			}
+																			   				   	                    else
+																			   				   	                        alert(res.msg);
+																			   											resolve();
+																			   				   	                },
+																			   				   	error:function(data){
+																			   				   	layer.alert("服务器繁忙");
+																			   					reject();
+																			   				   	}
+																			   				   });
+																							   }).then(
+																	new Promise(function (resolve, reject){
+																			   $.ajax({
+																			   		url: URL+'/v1/lastOtherStructure',
+																			   		method: 'get',
+																			   		success:function(res){
+																			   				   	            if(res.code === 0)
+																			   				   				{
+																			   																								
+																			   				   				//对饼图准备数据
+																			   								var data = [];
+																			   								var data1 = 0;//基本完好面积
+																			   								var data2 = 0;//轻微破坏面积
+																			   								var data3 = 0;//中等破坏面积
+																											var data4 = 0;//严重破坏面积
+																											var data5 = 0;//毁坏面积
+																											
+																											
+																			   								for(var i = 0 ;i < res.count; ++i)
+																			   								{
+																			   								data1 += res.data[i].basicallyIntactSquare;
+																			   								data2 += res.data[i].slightDamagedSquare;
+																			   								data3 += res.data[i].moderateDamagedSquare;
+																											data4 += res.data[i].seriousDamagedSquare;
+																											data5 += res.data[i].destroyedSquare;
+																			   								}
+																			   								var obj = new Object();
+																			   								obj.name = '基本完好面积';
+																			   								obj.value = data1;
+																			   								data.push(obj);
+																			   																								
+																			   								obj = new Object();
+																			   								obj.name = '轻微破坏面积';
+																			   								obj.value = data2;
+																			   								data.push(obj);
+																			   																								
+																			   								obj = new Object();
+																			   								obj.name = '中等破坏面积';
+																			   								obj.value = data3;
+																			   								data.push(obj);
+																											
+																											obj = new Object();
+																											obj.name = '严重破坏面积';
+																											obj.value = data4;
+																											data.push(obj);
+																											
+																											obj = new Object();
+																											obj.name = '毁坏面积';
+																											obj.value = data5;
+																											data.push(obj);
+																											
+																											
+																			   																								
+																			   								var dom = document.getElementById("container10");
+																			   								var myChart = echarts.init(dom);
+																			   								option = {
+																			   											title: {
+																			   													text: '最新一次地震其他结构面积比例统计图',
+																			   													left: 'center'
+																			   													},
+																			   											tooltip: {
+																			   														trigger: 'item',
+																			   														formatter: '{b} : {c} ({d}%)'
+																			   													},
+																			   											toolbox: {
+																			   														show: true,
+																			   														orient : 'vertical',
+																			   														left: 'right',
+																			   														top: 'center',
+																			   														feature : {
+																			   																	mark : {},
+																			   																	//dataView : {readOnly: false},
+																			   																	//restore : {},
+																			   																	//saveAsImage : {}
+																			   																  }
+																			   													},
+																			   											legend: {
+																			   														orient: 'vertical',
+																			   														left: 'left',
+																			   														data: ['基本完好面积', '轻微破坏面积', '中等破坏面积', '严重破坏面积', '毁坏面积']
+																			   													},
+																			   											series: [
+																			   														{
+																			   															name: '其他面积数据',
+																			   															type: 'pie',
+																			   															radius: '55%',
+																			   															center: ['50%', '50%'],
+																			   															data: data,
+																			   															emphasis: {
+																			   															            itemStyle: {
+																			   																		            shadowBlur: 10,
+																			   																					shadowOffsetX: 0,
+																			   																					shadowColor: 'rgba(0, 0, 0, 0.5)'
+																			   																					}
+																			   																	 }
+																			   														}
+																			   													]
+																			   										}
+																			   									if (option && typeof option === "object") 
+																												{
+																			   										myChart.setOption(option, true);
+																			   									}
+																			   				   			}
+																			   				   	                    else
+																			   				   	                        alert(res.msg);
+																			   											resolve();
+																			   				   	                },
+																			   				   	error:function(data){
+																			   				   	layer.alert("服务器繁忙");
+																			   					reject();
+																			   				   	}
+																			   				   });
+																							   }).then()
+																							 )))))))))
+																							 
+																							 }
+																							 						    else{
+																							 						        window.location.href="./login.html";}
+																							 },
+																							 			error:function(data){
+																							 						alert(JSON.stringify(data));
+																							 						}
+																							 								  
+																							 					});
+																							 
+																							 })
+																							 
+																							 
+							   </script>   
+ </body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>基本震情展示</title>
+	<script src="./layui/layui.js" charset="utf-8"></script>
+	<script type="text/javascript" src="./js/xadmin.js"></script>
+    <style type="text/css">
+   /*     body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";} */
+        #mapDiv{height:100vh;width:100%;}
+   /*     input,p { margin-top: 10px; margin-left: 5px; font-size: 14px;  } */
+    </style>
+    <script>
+		var info=[]
+        var map
+        var zoom = 5;
+        function loadmap() {
+
+            // var data_info = [[116.417854,39.921988,"地址：北京市东城区王府井大街88号乐天银泰百货八层"],
+            //     [116.406605,39.921585,"地址：北京市东城区东华门大街"],
+            //     [116.412222,39.912345,"地址：北京市东城区正义路甲5号"],
+            // ];
+
+            //初始化地图对象
+            map = new T.Map("mapDiv");
+            //设置显示地图的中心点和级别
+            map.centerAndZoom(new T.LngLat(116.41593, 39.92313), zoom);
+
+      for (var i = 0; i < info.length; i++) {
+        
+        var marker = new T.Marker(new T.LngLat(info[i].longitude, info[i].latitude));  // 创建标注
+        var content = `
+		经度：${info[i].longitude}°\n
+		纬度：${info[i].latitude}°\n
+		地点：${info[i].location}\n
+		时间：${info[i].date}\n
+		震级：${info[i].magnitude}级\n
+		震源深度：${info[i].depth}km\n`
+        map.addOverLay(marker);               // 将标注添加到地图中
+        addClickHandler(content, marker);
+      }
+            function addClickHandler(content,marker){
+                marker.addEventListener("click",function(e){
+                    openInfo(content,e)}
+                );
+            }
+            function openInfo(content,e){
+                var point = e.lnglat;
+                marker = new T.Marker(point);// 创建标注
+                var markerInfoWin = new T.InfoWindow(content,{offset:new T.Point(0,-30)}); // 创建信息窗口对象
+                map.openInfoWindow(markerInfoWin,point); //开启信息窗口
+            }
+        }
+		function getinfo(){
+				
+				$.ajax({
+					url: 'http://10.5.103.127:9006/v1/getalldisasterinfo',
+					method:'GET',
+					contentType:'application/json',
+					success:function(res){
+										info=res
+										loadmap()
+					                },
+					error:function(error){
+						console.log(error)
+					}
+
+				})
+		}
+    </script>
+</head>
+<body onLoad="getinfo()">
+<div id="mapDiv" style="white-space: pre;"></div>
+<p>为多个点添加多个点的信息窗口</p>
+</body>
+	<script type="text/javascript" src="http://api.tianditu.gov.cn/api?v=4.0&tk=634969475c3d3781deafd63959bb8692"></script>
+</html>

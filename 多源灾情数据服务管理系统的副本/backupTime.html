@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="./layui/css/layui.css"  media="all">
+  <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body>
+<form class="layui-form">
+  <div class="layui-form-item" id="timingTimeBlock">
+    <label class="layui-form-label" style="width:120px">备份时间</label>
+    <div class="layui-input-block">
+      <input type="radio" name="backupTime" value="180" title="半年以外数据备份" checked="">
+      <input type="radio" name="backupTime" value="365" title="一年以外数据备份">
+      <input type="radio" name="backupTime" value="545" title="一年半以外数据备份" >
+	  <input type="radio" name="backupTime" value="730" title="两年以外数据备份">
+    </div>
+  </div>
+  <div class="layui-form-item">
+      <div class="layui-input-block">
+        <button type="submit" class="layui-btn" lay-submit="" lay-filter="timeSubmit" onClick="return false">应用</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+      </div>
+    </div>
+</form>
+ 
+          
+<script src="./layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+layui.use(['form', 'layer'], function(){
+  var form = layui.form
+  ,layer = layui.layer
+  ,$ = layui.jquery;
+  // var URL = 'http://39.99.228.199:8001'; 
+  var URL = 'http://10.5.103.127:6005';
+  var URLInterpreter = "http://10.5.103.127:5001";
+  
+  $.ajax({
+  			url: URLInterpreter+'/v1/user/permission',
+  			type: 'get',
+			xhrFields:{
+			    withCredentials:true
+			},
+  			success:function(res){
+  							if(res.code== 0){
+  								form.on('submit(timeSubmit)', function(data){
+  																			$.ajax({
+  																				url: URL+'/v1/changeBackupTime/'+data.field.backupTime,
+  																				type: 'post',
+  																				success:function(res){
+  																					if(res.code== 0){
+  																						layer.alert("应用成功！");}
+  																				    else
+  																				        layer.alert("应用失败！");
+  														},
+  																				error:function(data){
+  																				alert(JSON.stringify(data));
+  																				}
+  																						  
+  																			});
+  								
+  								});
+								}
+  						    else{
+  						        window.location.href="./login.html";}
+  },
+  			error:function(data){
+  						alert(JSON.stringify(data));
+  						}
+  								  
+  					});
+  
+  //监听提交
+    // form.on('submit(timeSubmit)', function(data){
+				// 								$.ajax({
+				// 									url: URL+'/v1/changeBackupTime/'+data.field.backupTime,
+				// 									type: 'post',
+				// 									success:function(res){
+				// 										if(res.code== 0){
+				// 											layer.alert("应用成功！");}
+				// 									    else
+				// 									        layer.alert("应用失败！");
+				// 			},
+				// 									error:function(data){
+				// 									alert(JSON.stringify(data));
+				// 									}
+															  
+				// 								});
+
+    // });
+ 
+  
+});
+</script>
+
+
+</body>
+</html>

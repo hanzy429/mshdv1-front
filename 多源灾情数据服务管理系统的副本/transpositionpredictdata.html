@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="UTF-8">
+        <title>灾情预测</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+        <link rel="stylesheet" href="./css/font.css">
+        <link rel="stylesheet" href="./css/xadmin.css">
+		<link rel="stylesheet" href="./layui/css/layui.css"  media="all">
+		<script src="./layui/layui.js" charset="utf-8"></script>
+        <!-- <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script> -->
+        <script type="text/javascript" src="./js/xadmin.js"></script>
+	</head>
+	<body>
+		<div class="layui-fluid">
+		    <div class="layui-row">
+		        <form class="layui-form">
+					<div class="layui-form-item">
+					    <label for="address" class="layui-form-label">
+					        <span class="x-red">*</span>地点</label>
+					    <div class="layui-input-inline">
+					        <input type="text" id="address" name="address" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
+					</div>
+					<div class="layui-form-item">
+					    <label for="level" class="layui-form-label">
+					        <span class="x-red">*</span>震级</label>
+					    <div class="layui-input-inline">
+					        <input type="number" oninput="if(value<0)value=0;if(value>10)value=10" id="level" name="level" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
+					</div>
+					<div class="layui-form-item">
+					    <label for="height" class="layui-form-label">
+					        <span class="x-red">*</span>震源深度</label>
+					    <div class="layui-input-inline">
+					        <input type="number" id="height" name="height" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
+					</div>
+					<div class="layui-form-item">
+					    <label for="loadLength" class="layui-form-label">
+					        <span class="x-red">*</span>受损道路长度</label>
+					    <div class="layui-input-inline">
+					        <input type="number" oninput="if(value<0)value=0" id="loadLength" name="loadLength" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
+					</div>
+					<div class="layui-form-item">
+					    <label for="loadArea" class="layui-form-label">
+					        <span class="x-red">*</span>受损路面面积</label>
+					    <div class="layui-input-inline">
+					        <input type="number" oninput="if(value<0)value=0" id="loadArea" name="loadArea" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
+					</div>
+					<div class="layui-form-item">
+					    <label for="bridgeNum" class="layui-form-label">
+					        <span class="x-red">*</span>受损桥梁数量</label>
+					    <div class="layui-input-inline">
+					        <input type="number" oninput="if(value<0)value=0" id="bridgeNum" name="bridgeNum" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
+					</div>
+					
+
+		            
+
+		<div class="layui-form-item">
+		    <div class="layui-input-block">
+		      <button type="submit" class="layui-btn" lay-submit="" lay-filter="submit" onClick="return false">开始分析</button>
+
+		    </div>
+		  </div>
+		</form>
+		</div>
+		</div>
+		<script>
+			layui.use(['form', 'layer', 'laydate', 'slider', 'upload'],
+		    function() {
+		        var $ = layui.jquery;
+		        var form = layui.form;
+		        var layer = layui.layer;
+				var laydate = layui.laydate;
+				var slider = layui.slider;
+				var upload = layui.upload;
+				var picpath = null;
+				var URL = 'http://10.5.103.127:8000';
+				// var uploadUrl = 'http://10.5.103.127:8001';
+				var URLInterpreter = "http://10.5.103.127:5001";
+				// var URL = 'http://39.99.228.199:8006';
+				// var uploadUrl = 'http://39.99.228.199:8001';
+				
+				
+				$.ajax({
+							url: URLInterpreter+'/v1/user/permission',
+							type: 'get',
+							xhrFields:{
+							    withCredentials:true
+							},
+							success:function(res){
+											if(res.code== 0){				 				  
+				//普通图片上传
+		
+		        //监听提交
+		        form.on('submit(submit)',
+		        function(data) {
+					var csrfmiddlewaretoken = '{{ csrf_token }}';
+					var address = $("#address").val();
+					var level = $("#level").val();
+					var height = $("#height").val();
+					var loadLength = $("#loadLength").val();
+					var loadArea = $("#loadArea").val();
+					var bridgeNum = $("#bridgeNum").val();
+					var data =  {
+						"address": address,
+						"level": level,
+						"height": height,
+						"loadLength": loadLength,
+						"loadArea": loadArea,
+						"bridgeNum": bridgeNum,
+
+						};
+					//console.log(data);
+					//console.log(JSON.stringify(data))
+					$.ajax({
+						
+						url: URL+'/transposition_predict_data/',
+						method: 'POST',
+                        //contentType:'application/json',
+						xhrFields: {
+						     withCredentials: true    // 前端设置是否带cookie
+						},
+						crossDomain: true,
+                        data: data,
+						//dataType: 'json',
+						success:function(res){
+							console.log(res)
+											layer.alert("本次地震的烈度为："+res.predict_result);
+						                },
+						error:function(data){
+						layer.alert("服务器繁忙，添加失败！");
+						}
+								  
+					});
+					
+		            // console.log(data);
+		            // //发异步，把数据提交给php
+		            // layer.alert("增加成功", {
+		            //     icon: 6
+		            // },
+		            // function() {
+		            //     // 获得frame索引
+		            //     var index = parent.layer.getFrameIndex(window.name);
+		            //     //关闭当前frame
+		            //     parent.layer.close(index);
+		            // });
+		            // return false;
+		        });
+				
+				}//用户校验
+										    else{
+										        window.location.href="./login.html";}
+				},
+							error:function(data){
+										alert(JSON.stringify(data));
+										}
+												  
+									});
+		
+		    });</script>
+		<script>var _hmt = _hmt || []; (function() {
+		        var hm = document.createElement("script");
+		        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+		        var s = document.getElementsByTagName("script")[0];
+		        s.parentNode.insertBefore(hm, s);
+		    })();</script>
+
+	</body>
+</html>

@@ -1,0 +1,2076 @@
+<html>
+	<head>
+  <meta charset="utf-8">
+  <title>灾情生命线数据统计展示</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="./layui/css/layui.css"  media="all">
+	</head>
+    <body>
+       <div class="layui-fluid">
+         <div class="layui-row layui-col-space15"> 
+          <div class="layui-col-sm12 layui-col-md6"> 
+           <div class="layui-card"> 
+            <div class="layui-card-header"></div> 
+            <div class="layui-card-body" style="min-height: 280px;"> 
+             <div id="container1" class="layui-col-sm12" style="height: 300px;"></div> 
+            </div> 
+           </div> 
+          </div> 
+          <div class="layui-col-sm12 layui-col-md6"> 
+           <div class="layui-card"> 
+            <div class="layui-card-header"></div> 
+            <div class="layui-card-body" style="min-height: 280px;"> 
+             <div id="container2" class="layui-col-sm12" style="height: 300px;"></div> 
+            </div> 
+           </div> 
+          </div> 
+          <div class="layui-col-sm12 layui-col-md6"> 
+           <div class="layui-card"> 
+            <div class="layui-card-header"></div> 
+            <div class="layui-card-body" style="min-height: 280px;"> 
+             <div id="container3" class="layui-col-sm12" style="height: 300px;"></div> 
+            </div> 
+           </div> 
+          </div> 
+          <div class="layui-col-sm12 layui-col-md6"> 
+           <div class="layui-card"> 
+            <div class="layui-card-header"></div> 
+            <div class="layui-card-body" style="min-height: 280px;"> 
+             <div id="container4" class="layui-col-sm12" style="height: 300px;"></div> 
+            </div> 
+           </div> 
+          </div> 
+          <div class="layui-col-sm12 layui-col-md6"> 
+           <div class="layui-card"> 
+            <div class="layui-card-header"></div> 
+            <div class="layui-card-body" style="min-height: 280px;"> 
+             <div id="container5" class="layui-col-sm12" style="height: 300px;"></div> 
+            </div> 
+           </div> 
+          </div> 
+          <div class="layui-col-sm12 layui-col-md6"> 
+           <div class="layui-card"> 
+            <div class="layui-card-header"></div> 
+            <div class="layui-card-body" style="min-height: 280px;"> 
+             <div id="container6" class="layui-col-sm12" style="height: 300px;"></div> 
+            </div> 
+           </div> 
+          </div> 
+          <div class="layui-col-sm12 layui-col-md6"> 
+           <div class="layui-card"> 
+            <div class="layui-card-header"></div> 
+            <div class="layui-card-body" style="min-height: 280px;"> 
+             <div id="container7" class="layui-col-sm12" style="height: 300px;"></div> 
+            </div> 
+           </div> 
+          </div> 
+          <div class="layui-col-sm12 layui-col-md6"> 
+           <div class="layui-card"> 
+            <div class="layui-card-header"></div> 
+            <div class="layui-card-body" style="min-height: 280px;"> 
+             <div id="container8" class="layui-col-sm12" style="height: 300px;"></div> 
+            </div> 
+           </div> 
+          </div> 
+          <div class="layui-col-sm12 layui-col-md6"> 
+           <div class="layui-card"> 
+            <div class="layui-card-header"></div> 
+            <div class="layui-card-body" style="min-height: 280px;"> 
+             <div id="container9" class="layui-col-sm12" style="height: 300px;"></div> 
+            </div> 
+           </div> 
+          </div> 
+          <div class="layui-col-sm12 layui-col-md6"> 
+           <div class="layui-card"> 
+            <div class="layui-card-header"></div> 
+            <div class="layui-card-body" style="min-height: 280px;"> 
+             <div id="container10" class="layui-col-sm12" style="height: 300px;"></div> 
+            </div> 
+           </div> 
+          </div> 
+		  <div class="layui-col-sm12 layui-col-md6">
+		   <div class="layui-card"> 
+		    <div class="layui-card-header"></div> 
+		    <div class="layui-card-body" style="min-height: 280px;"> 
+		     <div id="container11" class="layui-col-sm12" style="height: 300px;"></div> 
+		    </div> 
+		   </div> 
+		  </div>
+		  <div class="layui-col-sm12 layui-col-md6">
+		   <div class="layui-card"> 
+		    <div class="layui-card-header"></div> 
+		    <div class="layui-card-body" style="min-height: 280px;"> 
+		     <div id="container12" class="layui-col-sm12" style="height: 300px;"></div> 
+		    </div> 
+		   </div> 
+		  </div>
+		  <div class="layui-col-sm12 layui-col-md6">
+		   <div class="layui-card"> 
+		    <div class="layui-card-header"></div> 
+		    <div class="layui-card-body" style="min-height: 280px;"> 
+		     <div id="container13" class="layui-col-sm12" style="height: 300px;"></div> 
+		    </div> 
+		   </div> 
+		  </div> 
+		  <div class="layui-col-sm12 layui-col-md6">
+		   <div class="layui-card"> 
+		    <div class="layui-card-header"></div> 
+		    <div class="layui-card-body" style="min-height: 280px;"> 
+		     <div id="container14" class="layui-col-sm12" style="height: 300px;"></div> 
+		    </div> 
+		   </div> 
+		  </div> 
+         </div> 
+        </div>
+		
+		<script src="./layui/layui.js" charset="utf-8"></script> 
+
+        <script src="http://api.map.baidu.com/api?v=2.0&ak=lwP645LnT0EubseWq32Z9xWapMeaNxgB"></script> 
+		<script type="text/javascript" src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.0.1/dist/extension/bmap.js"></script>
+        
+        
+    </body>
+ 
+	<script>
+		layui.use('jquery', function(){
+		var $ = layui.$;   
+		var URL = 'http://10.5.103.127:9006';
+		var URLInterpreter = "http://10.5.103.127:5001";
+		// var URL = 'http://39.99.228.199:9006';
+		var dataForProv=[]
+		var dataForPie = []
+		var obj;
+		var longitude = 0;
+		var latitude = 0;
+		var coordinate = [];
+		var geoCoordMap = {};
+		var province = '';
+		
+		
+		var proMap = new Map();
+		var gradeMap = new Map();
+		$.ajax({
+					url: URLInterpreter+'/v1/user/permission',
+					type: 'get',
+					xhrFields:{
+					    withCredentials:true
+					},
+					success:function(res){
+									if(res.code== 0){
+		
+		proMap.set("11","北京");
+		proMap.set("12","天津");
+		proMap.set("13","河北");
+		proMap.set("14","山西");
+		proMap.set("15","内蒙古");
+		proMap.set("21","辽宁");
+		proMap.set("22","吉林");
+		proMap.set("23","黑龙江");
+		proMap.set("31","上海");
+		proMap.set("32","江苏");
+		proMap.set("33","浙江");
+		proMap.set("34","安徽");
+		proMap.set("35","福建");
+		proMap.set("36","江西");
+		proMap.set("37","山东");
+		proMap.set("41","河南");
+		proMap.set("42","湖北");
+		proMap.set("43","湖南");
+		proMap.set("44","广东");
+		proMap.set("45","广西");
+		proMap.set("46","海南");
+		proMap.set("50","重庆");
+		proMap.set("51","四川");
+		proMap.set("52","贵州");
+		proMap.set("53","云南");
+		proMap.set("54","西藏");
+		proMap.set("61","陕西");
+		proMap.set("62","甘肃");
+		proMap.set("63","青海");
+		proMap.set("64","宁夏");
+		proMap.set("65","新疆");
+		proMap.set("71","台湾");
+		proMap.set("81","香港");
+		proMap.set("82","澳门");
+		
+		gradeMap.set("1","基本完好");
+		gradeMap.set("2","轻微破坏");
+		gradeMap.set("3","中等破坏");
+		gradeMap.set("4","严重破坏");
+		gradeMap.set("5","毁坏");
+		
+		
+		
+		//通信系统灾情作图
+		new Promise(function (resolve, reject){
+		$.ajax({
+					url: URL+'/v1/lastDisasterInfo',
+					method: 'get',
+					success:function(res){
+							   	            if(res.code === 0)
+							   				{
+												latitude = res.data[0].latitude;
+												longitude = res.data[0].longitude;
+												coordinate.push(longitude);
+												coordinate.push(latitude);
+												province = proMap.get((res.data[0].id).substring(0,2));
+												geoCoordMap[province] = coordinate;
+							   	                }
+											else
+											    alert(res.msg);
+												resolve();
+												},
+				    error:function(data){
+							   	alert("服务器繁忙");
+								reject();
+							   	}
+			});
+			}).then(
+			new Promise(function (resolve, reject){
+			$.ajax({
+				url: URL+'/v1/lastCommDisasterStatistics',
+				method: 'get',
+				success:function(res){
+						   	            if(res.code === 0)
+						   				{
+											// console.log(res.data);
+											var sum = 0;
+											for(var i = 0;i < res.count; i++)
+											{
+												sum += res.data[i].count;
+											}
+											var data = [];
+											var obj = new Object();
+											obj.name = province;
+											obj.value = sum;
+											data.push(obj);
+											var myChart = echarts.init(document.getElementById('container1'));
+											
+											var convertData = function (data) {
+											    var res = [];
+											    for (var i = 0; i < data.length; i++) {
+											        var geoCoord = geoCoordMap[data[i].name];
+											        if (geoCoord) {
+											            res.push({
+											                name: data[i].name,
+											                value: geoCoord.concat(data[i].value)
+											            });
+											        }
+											    }
+											    return res;
+											};
+											
+											option = {
+											    title: {
+											        text: '最近一次地震通信系统灾情频率',
+											        left: 'center'
+											    },
+											    tooltip : {
+											        trigger: 'item'
+											    },
+											    bmap: {
+											        center: [104.114129, 37.550339],
+											        zoom: 4,
+											        roam: true,
+											        mapStyle: {
+											            styleJson: [{
+											                'featureType': 'water',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#d1d1d1'
+											                }
+											            }, {
+											                'featureType': 'land',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#f3f3f3'
+											                }
+											            }, {
+											                'featureType': 'railway',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'highway',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#fdfdfd'
+											                }
+											            }, {
+											                'featureType': 'highway',
+											                'elementType': 'labels',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'arterial',
+											                'elementType': 'geometry',
+											                'stylers': {
+											                    'color': '#fefefe'
+											                }
+											            }, {
+											                'featureType': 'arterial',
+											                'elementType': 'geometry.fill',
+											                'stylers': {
+											                    'color': '#fefefe'
+											                }
+											            }, {
+											                'featureType': 'poi',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'green',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'subway',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'manmade',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#d1d1d1'
+											                }
+											            }, {
+											                'featureType': 'local',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#d1d1d1'
+											                }
+											            }, {
+											                'featureType': 'arterial',
+											                'elementType': 'labels',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'boundary',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#fefefe'
+											                }
+											            }, {
+											                'featureType': 'building',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#d1d1d1'
+											                }
+											            }, {
+											                'featureType': 'label',
+											                'elementType': 'labels.text.fill',
+											                'stylers': {
+											                    'color': '#999999'
+											                }
+											            }]
+											        }
+											    },
+											    series : [
+											        {
+											            name: '通信系统灾情频率数据',
+											            type: 'effectScatter',
+											            coordinateSystem: 'bmap',
+											            data: convertData(data),
+											            symbolSize: function (val) {
+											                return val[2]*10;
+											            },
+											            encode: {
+											                value: 2
+											            },
+											            showEffectOn: 'render',
+											            rippleEffect: {
+											                brushType: 'stroke'
+											            },
+											            hoverAnimation: true,
+											            label: {
+											                formatter: '{b}',
+											                position: 'right',
+											                show: true
+											            },
+											            itemStyle: {
+											                color: 'purple',
+											                shadowBlur: 10,
+											                shadowColor: '#333'
+											            },
+											            zlevel: 1
+											        }
+											    ]
+											};
+											
+												if (option && typeof option === "object") 
+												{
+													myChart.setOption(option, true);
+												}
+											
+											//对饼图准备数据
+											var dataForPie = [];
+											
+											
+											for(var i = 0 ;i < res.count; ++i)
+											{
+												obj = new Object();
+												obj.name = gradeMap.get(res.data[i].grade);
+												obj.value = res.data[i].count;
+												dataForPie.push(obj);
+											}
+																											
+											var dom = document.getElementById("container2");
+											var myChart = echarts.init(dom);
+											option = {
+														title: {
+																text: '最新一次地震通信系统灾情等级统计图',
+																left: 'center'
+																},
+														tooltip: {
+																	trigger: 'item',
+																	formatter: '{b} : {c} ({d}%)'
+																},
+														toolbox: {
+																	show: true,
+																	orient : 'vertical',
+																	left: 'right',
+																	top: 'center',
+																	feature : {
+																				mark : {},
+																				//dataView : {readOnly: false},
+																				//restore : {},
+																				//saveAsImage : {}
+																			  }
+																},
+														legend: {
+																	orient: 'vertical',
+																	left: 'left',
+																	data: ['基本完好', '轻微破坏', '中等破坏', '严重破坏', '毁坏']
+																},
+														series: [
+																	{
+																		name: '通信系统灾情数据',
+																		type: 'pie',
+																		radius: '55%',
+																		center: ['50%', '50%'],
+																		data: dataForPie,
+																		emphasis: {
+																		            itemStyle: {
+																					            shadowBlur: 10,
+																								shadowOffsetX: 0,
+																								shadowColor: 'rgba(0, 0, 0, 0.5)'
+																								}
+																				 }
+																	}
+																]
+													}
+												if (option && typeof option === "object") 
+												{
+													myChart.setOption(option, true);
+												}
+
+											
+						   	                }
+										else
+										    alert(res.msg);
+											resolve();
+											},
+				error:function(data){
+						   	alert("服务器繁忙");
+							reject();
+						   	}
+				
+				
+			});
+			})
+			)
+			
+			
+			
+			//交通系统灾情作图
+			new Promise(function (resolve, reject){
+			$.ajax({
+				url: URL+'/v1/lastTrafficDisasterStatistics',
+				method: 'get',
+				success:function(res){
+						   	            if(res.code === 0)
+						   				{
+											// console.log(res.data);
+											var sum = 0;
+											for(var i = 0;i < res.count; i++)
+											{
+												sum += res.data[i].count;
+											}
+											var data = [];
+											var obj = new Object();
+											obj.name = province;
+											obj.value = sum;
+											data.push(obj);
+											var myChart = echarts.init(document.getElementById('container3'));
+											
+											var convertData = function (data) {
+											    var res = [];
+											    for (var i = 0; i < data.length; i++) {
+											        var geoCoord = geoCoordMap[data[i].name];
+											        if (geoCoord) {
+											            res.push({
+											                name: data[i].name,
+											                value: geoCoord.concat(data[i].value)
+											            });
+											        }
+											    }
+											    return res;
+											};
+											
+											option = {
+											    title: {
+											        text: '最近一次地震交通系统灾情频率',
+											        left: 'center'
+											    },
+											    tooltip : {
+											        trigger: 'item'
+											    },
+											    bmap: {
+											        center: [104.114129, 37.550339],
+											        zoom: 4,
+											        roam: true,
+											        mapStyle: {
+											            styleJson: [{
+											                'featureType': 'water',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#d1d1d1'
+											                }
+											            }, {
+											                'featureType': 'land',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#f3f3f3'
+											                }
+											            }, {
+											                'featureType': 'railway',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'highway',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#fdfdfd'
+											                }
+											            }, {
+											                'featureType': 'highway',
+											                'elementType': 'labels',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'arterial',
+											                'elementType': 'geometry',
+											                'stylers': {
+											                    'color': '#fefefe'
+											                }
+											            }, {
+											                'featureType': 'arterial',
+											                'elementType': 'geometry.fill',
+											                'stylers': {
+											                    'color': '#fefefe'
+											                }
+											            }, {
+											                'featureType': 'poi',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'green',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'subway',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'manmade',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#d1d1d1'
+											                }
+											            }, {
+											                'featureType': 'local',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#d1d1d1'
+											                }
+											            }, {
+											                'featureType': 'arterial',
+											                'elementType': 'labels',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'boundary',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#fefefe'
+											                }
+											            }, {
+											                'featureType': 'building',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#d1d1d1'
+											                }
+											            }, {
+											                'featureType': 'label',
+											                'elementType': 'labels.text.fill',
+											                'stylers': {
+											                    'color': '#999999'
+											                }
+											            }]
+											        }
+											    },
+											    series : [
+											        {
+											            name: '通信系统灾情频率数据',
+											            type: 'effectScatter',
+											            coordinateSystem: 'bmap',
+											            data: convertData(data),
+											            symbolSize: function (val) {
+											                return val[2]*10;
+											            },
+											            encode: {
+											                value: 2
+											            },
+											            showEffectOn: 'render',
+											            rippleEffect: {
+											                brushType: 'stroke'
+											            },
+											            hoverAnimation: true,
+											            label: {
+											                formatter: '{b}',
+											                position: 'right',
+											                show: true
+											            },
+											            itemStyle: {
+											                color: 'purple',
+											                shadowBlur: 10,
+											                shadowColor: '#333'
+											            },
+											            zlevel: 1
+											        }
+											    ]
+											};
+											
+												if (option && typeof option === "object") 
+												{
+													myChart.setOption(option, true);
+												}
+											
+											//对饼图准备数据
+											var dataForPie = [];
+											
+											
+											for(var i = 0 ;i < res.count; ++i)
+											{
+												obj = new Object();
+												obj.name = gradeMap.get(res.data[i].grade);
+												obj.value = res.data[i].count;
+												dataForPie.push(obj);
+											}
+																											
+											var dom = document.getElementById("container4");
+											var myChart = echarts.init(dom);
+											option = {
+														title: {
+																text: '最新一次地震交通系统灾情等级统计图',
+																left: 'center'
+																},
+														tooltip: {
+																	trigger: 'item',
+																	formatter: '{b} : {c} ({d}%)'
+																},
+														toolbox: {
+																	show: true,
+																	orient : 'vertical',
+																	left: 'right',
+																	top: 'center',
+																	feature : {
+																				mark : {},
+																				//dataView : {readOnly: false},
+																				//restore : {},
+																				//saveAsImage : {}
+																			  }
+																},
+														legend: {
+																	orient: 'vertical',
+																	left: 'left',
+																	data: ['基本完好', '轻微破坏', '中等破坏', '严重破坏', '毁坏']
+																},
+														series: [
+																	{
+																		name: '交通系统灾情数据',
+																		type: 'pie',
+																		radius: '55%',
+																		center: ['50%', '50%'],
+																		data: dataForPie,
+																		emphasis: {
+																		            itemStyle: {
+																					            shadowBlur: 10,
+																								shadowOffsetX: 0,
+																								shadowColor: 'rgba(0, 0, 0, 0.5)'
+																								}
+																				 }
+																	}
+																]
+													}
+												if (option && typeof option === "object") 
+												{
+													myChart.setOption(option, true);
+												}
+			
+											
+						   	                }
+										else
+										    alert(res.msg);
+											resolve();
+											},
+				error:function(data){
+						   	alert("服务器繁忙");
+							reject();
+						   	}
+				
+				
+			});
+			})
+			
+			//供水系统灾情作图
+			new Promise(function (resolve, reject){
+			$.ajax({
+				url: URL+'/v1/lastWaterDisasterStatistics',
+				method: 'get',
+				success:function(res){
+						   	            if(res.code === 0)
+						   				{
+											// console.log(res.data);
+											var sum = 0;
+											for(var i = 0;i < res.count; i++)
+											{
+												sum += res.data[i].count;
+											}
+											var data = [];
+											var obj = new Object();
+											obj.name = province;
+											obj.value = sum;
+											data.push(obj);
+											var myChart = echarts.init(document.getElementById('container5'));
+											
+											var convertData = function (data) {
+											    var res = [];
+											    for (var i = 0; i < data.length; i++) {
+											        var geoCoord = geoCoordMap[data[i].name];
+											        if (geoCoord) {
+											            res.push({
+											                name: data[i].name,
+											                value: geoCoord.concat(data[i].value)
+											            });
+											        }
+											    }
+											    return res;
+											};
+											
+											option = {
+											    title: {
+											        text: '最近一次地震供水系统灾情频率',
+											        left: 'center'
+											    },
+											    tooltip : {
+											        trigger: 'item'
+											    },
+											    bmap: {
+											        center: [104.114129, 37.550339],
+											        zoom: 4,
+											        roam: true,
+											        mapStyle: {
+											            styleJson: [{
+											                'featureType': 'water',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#d1d1d1'
+											                }
+											            }, {
+											                'featureType': 'land',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#f3f3f3'
+											                }
+											            }, {
+											                'featureType': 'railway',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'highway',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#fdfdfd'
+											                }
+											            }, {
+											                'featureType': 'highway',
+											                'elementType': 'labels',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'arterial',
+											                'elementType': 'geometry',
+											                'stylers': {
+											                    'color': '#fefefe'
+											                }
+											            }, {
+											                'featureType': 'arterial',
+											                'elementType': 'geometry.fill',
+											                'stylers': {
+											                    'color': '#fefefe'
+											                }
+											            }, {
+											                'featureType': 'poi',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'green',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'subway',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'manmade',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#d1d1d1'
+											                }
+											            }, {
+											                'featureType': 'local',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#d1d1d1'
+											                }
+											            }, {
+											                'featureType': 'arterial',
+											                'elementType': 'labels',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'boundary',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#fefefe'
+											                }
+											            }, {
+											                'featureType': 'building',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#d1d1d1'
+											                }
+											            }, {
+											                'featureType': 'label',
+											                'elementType': 'labels.text.fill',
+											                'stylers': {
+											                    'color': '#999999'
+											                }
+											            }]
+											        }
+											    },
+											    series : [
+											        {
+											            name: '供水系统灾情频率数据',
+											            type: 'effectScatter',
+											            coordinateSystem: 'bmap',
+											            data: convertData(data),
+											            symbolSize: function (val) {
+											                return val[2]*10;
+											            },
+											            encode: {
+											                value: 2
+											            },
+											            showEffectOn: 'render',
+											            rippleEffect: {
+											                brushType: 'stroke'
+											            },
+											            hoverAnimation: true,
+											            label: {
+											                formatter: '{b}',
+											                position: 'right',
+											                show: true
+											            },
+											            itemStyle: {
+											                color: 'purple',
+											                shadowBlur: 10,
+											                shadowColor: '#333'
+											            },
+											            zlevel: 1
+											        }
+											    ]
+											};
+											
+												if (option && typeof option === "object") 
+												{
+													myChart.setOption(option, true);
+												}
+											
+											//对饼图准备数据
+											var dataForPie = [];
+											
+											
+											for(var i = 0 ;i < res.count; ++i)
+											{
+												obj = new Object();
+												obj.name = gradeMap.get(res.data[i].grade);
+												obj.value = res.data[i].count;
+												dataForPie.push(obj);
+											}
+																											
+											var dom = document.getElementById("container6");
+											var myChart = echarts.init(dom);
+											option = {
+														title: {
+																text: '最新一次地震供水系统灾情等级统计图',
+																left: 'center'
+																},
+														tooltip: {
+																	trigger: 'item',
+																	formatter: '{b} : {c} ({d}%)'
+																},
+														toolbox: {
+																	show: true,
+																	orient : 'vertical',
+																	left: 'right',
+																	top: 'center',
+																	feature : {
+																				mark : {},
+																				//dataView : {readOnly: false},
+																				//restore : {},
+																				//saveAsImage : {}
+																			  }
+																},
+														legend: {
+																	orient: 'vertical',
+																	left: 'left',
+																	data: ['基本完好', '轻微破坏', '中等破坏', '严重破坏', '毁坏']
+																},
+														series: [
+																	{
+																		name: '供水系统灾情数据',
+																		type: 'pie',
+																		radius: '55%',
+																		center: ['50%', '50%'],
+																		data: dataForPie,
+																		emphasis: {
+																		            itemStyle: {
+																					            shadowBlur: 10,
+																								shadowOffsetX: 0,
+																								shadowColor: 'rgba(0, 0, 0, 0.5)'
+																								}
+																				 }
+																	}
+																]
+													}
+												if (option && typeof option === "object") 
+												{
+													myChart.setOption(option, true);
+												}
+			
+											
+						   	                }
+										else
+										    alert(res.msg);
+											resolve();
+											},
+				error:function(data){
+						   	alert("服务器繁忙");
+							reject();
+						   	}
+				
+				
+			});
+			})
+			
+			
+			//输油系统灾情作图
+			new Promise(function (resolve, reject){
+			$.ajax({
+				url: URL+'/v1/lastOilDisasterStatistics',
+				method: 'get',
+				success:function(res){
+						   	            if(res.code === 0)
+						   				{
+											// console.log(res.data);
+											var sum = 0;
+											for(var i = 0;i < res.count; i++)
+											{
+												sum += res.data[i].count;
+											}
+											var data = [];
+											var obj = new Object();
+											obj.name = province;
+											obj.value = sum;
+											data.push(obj);
+											var myChart = echarts.init(document.getElementById('container7'));
+											
+											var convertData = function (data) {
+											    var res = [];
+											    for (var i = 0; i < data.length; i++) {
+											        var geoCoord = geoCoordMap[data[i].name];
+											        if (geoCoord) {
+											            res.push({
+											                name: data[i].name,
+											                value: geoCoord.concat(data[i].value)
+											            });
+											        }
+											    }
+											    return res;
+											};
+											
+											option = {
+											    title: {
+											        text: '最近一次地震输油系统灾情频率',
+											        left: 'center'
+											    },
+											    tooltip : {
+											        trigger: 'item'
+											    },
+											    bmap: {
+											        center: [104.114129, 37.550339],
+											        zoom: 4,
+											        roam: true,
+											        mapStyle: {
+											            styleJson: [{
+											                'featureType': 'water',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#d1d1d1'
+											                }
+											            }, {
+											                'featureType': 'land',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#f3f3f3'
+											                }
+											            }, {
+											                'featureType': 'railway',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'highway',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#fdfdfd'
+											                }
+											            }, {
+											                'featureType': 'highway',
+											                'elementType': 'labels',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'arterial',
+											                'elementType': 'geometry',
+											                'stylers': {
+											                    'color': '#fefefe'
+											                }
+											            }, {
+											                'featureType': 'arterial',
+											                'elementType': 'geometry.fill',
+											                'stylers': {
+											                    'color': '#fefefe'
+											                }
+											            }, {
+											                'featureType': 'poi',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'green',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'subway',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'manmade',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#d1d1d1'
+											                }
+											            }, {
+											                'featureType': 'local',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#d1d1d1'
+											                }
+											            }, {
+											                'featureType': 'arterial',
+											                'elementType': 'labels',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'boundary',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#fefefe'
+											                }
+											            }, {
+											                'featureType': 'building',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#d1d1d1'
+											                }
+											            }, {
+											                'featureType': 'label',
+											                'elementType': 'labels.text.fill',
+											                'stylers': {
+											                    'color': '#999999'
+											                }
+											            }]
+											        }
+											    },
+											    series : [
+											        {
+											            name: '输油系统灾情频率数据',
+											            type: 'effectScatter',
+											            coordinateSystem: 'bmap',
+											            data: convertData(data),
+											            symbolSize: function (val) {
+											                return val[2]*10;
+											            },
+											            encode: {
+											                value: 2
+											            },
+											            showEffectOn: 'render',
+											            rippleEffect: {
+											                brushType: 'stroke'
+											            },
+											            hoverAnimation: true,
+											            label: {
+											                formatter: '{b}',
+											                position: 'right',
+											                show: true
+											            },
+											            itemStyle: {
+											                color: 'purple',
+											                shadowBlur: 10,
+											                shadowColor: '#333'
+											            },
+											            zlevel: 1
+											        }
+											    ]
+											};
+											
+												if (option && typeof option === "object") 
+												{
+													myChart.setOption(option, true);
+												}
+											
+											//对饼图准备数据
+											var dataForPie = [];
+											
+											
+											for(var i = 0 ;i < res.count; ++i)
+											{
+												obj = new Object();
+												obj.name = gradeMap.get(res.data[i].grade);
+												obj.value = res.data[i].count;
+												dataForPie.push(obj);
+											}
+																											
+											var dom = document.getElementById("container8");
+											var myChart = echarts.init(dom);
+											option = {
+														title: {
+																text: '最新一次地震输油系统灾情等级统计图',
+																left: 'center'
+																},
+														tooltip: {
+																	trigger: 'item',
+																	formatter: '{b} : {c} ({d}%)'
+																},
+														toolbox: {
+																	show: true,
+																	orient : 'vertical',
+																	left: 'right',
+																	top: 'center',
+																	feature : {
+																				mark : {},
+																				//dataView : {readOnly: false},
+																				//restore : {},
+																				//saveAsImage : {}
+																			  }
+																},
+														legend: {
+																	orient: 'vertical',
+																	left: 'left',
+																	data: ['基本完好', '轻微破坏', '中等破坏', '严重破坏', '毁坏']
+																},
+														series: [
+																	{
+																		name: '输油系统灾情数据',
+																		type: 'pie',
+																		radius: '55%',
+																		center: ['50%', '50%'],
+																		data: dataForPie,
+																		emphasis: {
+																		            itemStyle: {
+																					            shadowBlur: 10,
+																								shadowOffsetX: 0,
+																								shadowColor: 'rgba(0, 0, 0, 0.5)'
+																								}
+																				 }
+																	}
+																]
+													}
+												if (option && typeof option === "object") 
+												{
+													myChart.setOption(option, true);
+												}
+			
+											
+						   	                }
+										else
+										    alert(res.msg);
+											resolve();
+											},
+				error:function(data){
+						   	alert("服务器繁忙");
+							reject();
+						   	}
+				
+				
+			});
+			})
+			
+		   //燃气系统灾情作图
+			new Promise(function (resolve, reject){
+			$.ajax({
+				url: URL+'/v1/lastGasDisasterStatistics',
+				method: 'get',
+				success:function(res){
+						   	            if(res.code === 0)
+						   				{
+											// console.log(res.data);
+											var sum = 0;
+											for(var i = 0;i < res.count; i++)
+											{
+												sum += res.data[i].count;
+											}
+											var data = [];
+											var obj = new Object();
+											obj.name = province;
+											obj.value = sum;
+											data.push(obj);
+											var myChart = echarts.init(document.getElementById('container9'));
+											
+											var convertData = function (data) {
+											    var res = [];
+											    for (var i = 0; i < data.length; i++) {
+											        var geoCoord = geoCoordMap[data[i].name];
+											        if (geoCoord) {
+											            res.push({
+											                name: data[i].name,
+											                value: geoCoord.concat(data[i].value)
+											            });
+											        }
+											    }
+											    return res;
+											};
+											
+											option = {
+											    title: {
+											        text: '最近一次地震燃气系统灾情频率',
+											        left: 'center'
+											    },
+											    tooltip : {
+											        trigger: 'item'
+											    },
+											    bmap: {
+											        center: [104.114129, 37.550339],
+											        zoom: 4,
+											        roam: true,
+											        mapStyle: {
+											            styleJson: [{
+											                'featureType': 'water',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#d1d1d1'
+											                }
+											            }, {
+											                'featureType': 'land',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#f3f3f3'
+											                }
+											            }, {
+											                'featureType': 'railway',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'highway',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#fdfdfd'
+											                }
+											            }, {
+											                'featureType': 'highway',
+											                'elementType': 'labels',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'arterial',
+											                'elementType': 'geometry',
+											                'stylers': {
+											                    'color': '#fefefe'
+											                }
+											            }, {
+											                'featureType': 'arterial',
+											                'elementType': 'geometry.fill',
+											                'stylers': {
+											                    'color': '#fefefe'
+											                }
+											            }, {
+											                'featureType': 'poi',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'green',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'subway',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'manmade',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#d1d1d1'
+											                }
+											            }, {
+											                'featureType': 'local',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#d1d1d1'
+											                }
+											            }, {
+											                'featureType': 'arterial',
+											                'elementType': 'labels',
+											                'stylers': {
+											                    'visibility': 'off'
+											                }
+											            }, {
+											                'featureType': 'boundary',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#fefefe'
+											                }
+											            }, {
+											                'featureType': 'building',
+											                'elementType': 'all',
+											                'stylers': {
+											                    'color': '#d1d1d1'
+											                }
+											            }, {
+											                'featureType': 'label',
+											                'elementType': 'labels.text.fill',
+											                'stylers': {
+											                    'color': '#999999'
+											                }
+											            }]
+											        }
+											    },
+											    series : [
+											        {
+											            name: '燃气系统灾情频率数据',
+											            type: 'effectScatter',
+											            coordinateSystem: 'bmap',
+											            data: convertData(data),
+											            symbolSize: function (val) {
+											                return val[2]*10;
+											            },
+											            encode: {
+											                value: 2
+											            },
+											            showEffectOn: 'render',
+											            rippleEffect: {
+											                brushType: 'stroke'
+											            },
+											            hoverAnimation: true,
+											            label: {
+											                formatter: '{b}',
+											                position: 'right',
+											                show: true
+											            },
+											            itemStyle: {
+											                color: 'purple',
+											                shadowBlur: 10,
+											                shadowColor: '#333'
+											            },
+											            zlevel: 1
+											        }
+											    ]
+											};
+											
+												if (option && typeof option === "object") 
+												{
+													myChart.setOption(option, true);
+												}
+											
+											//对饼图准备数据
+											var dataForPie = [];
+											
+											
+											for(var i = 0 ;i < res.count; ++i)
+											{
+												obj = new Object();
+												obj.name = gradeMap.get(res.data[i].grade);
+												obj.value = res.data[i].count;
+												dataForPie.push(obj);
+											}
+																											
+											var dom = document.getElementById("container10");
+											var myChart = echarts.init(dom);
+											option = {
+														title: {
+																text: '最新一次地震燃气系统灾情等级统计图',
+																left: 'center'
+																},
+														tooltip: {
+																	trigger: 'item',
+																	formatter: '{b} : {c} ({d}%)'
+																},
+														toolbox: {
+																	show: true,
+																	orient : 'vertical',
+																	left: 'right',
+																	top: 'center',
+																	feature : {
+																				mark : {},
+																				//dataView : {readOnly: false},
+																				//restore : {},
+																				//saveAsImage : {}
+																			  }
+																},
+														legend: {
+																	orient: 'vertical',
+																	left: 'left',
+																	data: ['基本完好', '轻微破坏', '中等破坏', '严重破坏', '毁坏']
+																},
+														series: [
+																	{
+																		name: '燃气系统灾情数据',
+																		type: 'pie',
+																		radius: '55%',
+																		center: ['50%', '50%'],
+																		data: dataForPie,
+																		emphasis: {
+																		            itemStyle: {
+																					            shadowBlur: 10,
+																								shadowOffsetX: 0,
+																								shadowColor: 'rgba(0, 0, 0, 0.5)'
+																								}
+																				 }
+																	}
+																]
+													}
+												if (option && typeof option === "object") 
+												{
+													myChart.setOption(option, true);
+												}
+			
+											
+						   	                }
+										else
+										    alert(res.msg);
+											resolve();
+											},
+				error:function(data){
+						   	alert("服务器繁忙");
+							reject();
+						   	}
+				
+				
+			});
+			})
+			
+			//电力系统灾情作图
+						new Promise(function (resolve, reject){
+						$.ajax({
+							url: URL+'/v1/lastPowerDisasterStatistics',
+							method: 'get',
+							success:function(res){
+									   	            if(res.code === 0)
+									   				{
+														// console.log(res.data);
+														var sum = 0;
+														for(var i = 0;i < res.count; i++)
+														{
+															sum += res.data[i].count;
+														}
+														var data = [];
+														var obj = new Object();
+														obj.name = province;
+														obj.value = sum;
+														data.push(obj);
+														var myChart = echarts.init(document.getElementById('container11'));
+														
+														var convertData = function (data) {
+														    var res = [];
+														    for (var i = 0; i < data.length; i++) {
+														        var geoCoord = geoCoordMap[data[i].name];
+														        if (geoCoord) {
+														            res.push({
+														                name: data[i].name,
+														                value: geoCoord.concat(data[i].value)
+														            });
+														        }
+														    }
+														    return res;
+														};
+														
+														option = {
+														    title: {
+														        text: '最近一次地震电力系统灾情频率',
+														        left: 'center'
+														    },
+														    tooltip : {
+														        trigger: 'item'
+														    },
+														    bmap: {
+														        center: [104.114129, 37.550339],
+														        zoom: 4,
+														        roam: true,
+														        mapStyle: {
+														            styleJson: [{
+														                'featureType': 'water',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'color': '#d1d1d1'
+														                }
+														            }, {
+														                'featureType': 'land',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'color': '#f3f3f3'
+														                }
+														            }, {
+														                'featureType': 'railway',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'visibility': 'off'
+														                }
+														            }, {
+														                'featureType': 'highway',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'color': '#fdfdfd'
+														                }
+														            }, {
+														                'featureType': 'highway',
+														                'elementType': 'labels',
+														                'stylers': {
+														                    'visibility': 'off'
+														                }
+														            }, {
+														                'featureType': 'arterial',
+														                'elementType': 'geometry',
+														                'stylers': {
+														                    'color': '#fefefe'
+														                }
+														            }, {
+														                'featureType': 'arterial',
+														                'elementType': 'geometry.fill',
+														                'stylers': {
+														                    'color': '#fefefe'
+														                }
+														            }, {
+														                'featureType': 'poi',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'visibility': 'off'
+														                }
+														            }, {
+														                'featureType': 'green',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'visibility': 'off'
+														                }
+														            }, {
+														                'featureType': 'subway',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'visibility': 'off'
+														                }
+														            }, {
+														                'featureType': 'manmade',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'color': '#d1d1d1'
+														                }
+														            }, {
+														                'featureType': 'local',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'color': '#d1d1d1'
+														                }
+														            }, {
+														                'featureType': 'arterial',
+														                'elementType': 'labels',
+														                'stylers': {
+														                    'visibility': 'off'
+														                }
+														            }, {
+														                'featureType': 'boundary',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'color': '#fefefe'
+														                }
+														            }, {
+														                'featureType': 'building',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'color': '#d1d1d1'
+														                }
+														            }, {
+														                'featureType': 'label',
+														                'elementType': 'labels.text.fill',
+														                'stylers': {
+														                    'color': '#999999'
+														                }
+														            }]
+														        }
+														    },
+														    series : [
+														        {
+														            name: '电力系统灾情频率数据',
+														            type: 'effectScatter',
+														            coordinateSystem: 'bmap',
+														            data: convertData(data),
+														            symbolSize: function (val) {
+														                return val[2]*10;
+														            },
+														            encode: {
+														                value: 2
+														            },
+														            showEffectOn: 'render',
+														            rippleEffect: {
+														                brushType: 'stroke'
+														            },
+														            hoverAnimation: true,
+														            label: {
+														                formatter: '{b}',
+														                position: 'right',
+														                show: true
+														            },
+														            itemStyle: {
+														                color: 'purple',
+														                shadowBlur: 10,
+														                shadowColor: '#333'
+														            },
+														            zlevel: 1
+														        }
+														    ]
+														};
+														
+															if (option && typeof option === "object") 
+															{
+																myChart.setOption(option, true);
+															}
+														
+														//对饼图准备数据
+														var dataForPie = [];
+														
+														
+														for(var i = 0 ;i < res.count; ++i)
+														{
+															obj = new Object();
+															obj.name = gradeMap.get(res.data[i].grade);
+															obj.value = res.data[i].count;
+															dataForPie.push(obj);
+														}
+																														
+														var dom = document.getElementById("container12");
+														var myChart = echarts.init(dom);
+														option = {
+																	title: {
+																			text: '最新一次地震电力系统灾情等级统计图',
+																			left: 'center'
+																			},
+																	tooltip: {
+																				trigger: 'item',
+																				formatter: '{b} : {c} ({d}%)'
+																			},
+																	toolbox: {
+																				show: true,
+																				orient : 'vertical',
+																				left: 'right',
+																				top: 'center',
+																				feature : {
+																							mark : {},
+																							//dataView : {readOnly: false},
+																							//restore : {},
+																							//saveAsImage : {}
+																						  }
+																			},
+																	legend: {
+																				orient: 'vertical',
+																				left: 'left',
+																				data: ['基本完好', '轻微破坏', '中等破坏', '严重破坏', '毁坏']
+																			},
+																	series: [
+																				{
+																					name: '电力系统灾情数据',
+																					type: 'pie',
+																					radius: '55%',
+																					center: ['50%', '50%'],
+																					data: dataForPie,
+																					emphasis: {
+																					            itemStyle: {
+																								            shadowBlur: 10,
+																											shadowOffsetX: 0,
+																											shadowColor: 'rgba(0, 0, 0, 0.5)'
+																											}
+																							 }
+																				}
+																			]
+																}
+															if (option && typeof option === "object") 
+															{
+																myChart.setOption(option, true);
+															}
+						
+														
+									   	                }
+													else
+													    alert(res.msg);
+														resolve();
+														},
+							error:function(data){
+									   	alert("服务器繁忙");
+										reject();
+									   	}
+							
+							
+						});
+						})
+						
+			//水利系统灾情作图
+						new Promise(function (resolve, reject){
+						$.ajax({
+							url: URL+'/v1/lastIrrigationDisasterStatistics',
+							method: 'get',
+							success:function(res){
+									   	            if(res.code === 0)
+									   				{
+														// console.log(res.data);
+														var sum = 0;
+														for(var i = 0;i < res.count; i++)
+														{
+															sum += res.data[i].count;
+														}
+														var data = [];
+														var obj = new Object();
+														obj.name = province;
+														obj.value = sum;
+														data.push(obj);
+														var myChart = echarts.init(document.getElementById('container13'));
+														
+														var convertData = function (data) {
+														    var res = [];
+														    for (var i = 0; i < data.length; i++) {
+														        var geoCoord = geoCoordMap[data[i].name];
+														        if (geoCoord) {
+														            res.push({
+														                name: data[i].name,
+														                value: geoCoord.concat(data[i].value)
+														            });
+														        }
+														    }
+														    return res;
+														};
+														
+														option = {
+														    title: {
+														        text: '最近一次地震水利系统灾情频率',
+														        left: 'center'
+														    },
+														    tooltip : {
+														        trigger: 'item'
+														    },
+														    bmap: {
+														        center: [104.114129, 37.550339],
+														        zoom: 4,
+														        roam: true,
+														        mapStyle: {
+														            styleJson: [{
+														                'featureType': 'water',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'color': '#d1d1d1'
+														                }
+														            }, {
+														                'featureType': 'land',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'color': '#f3f3f3'
+														                }
+														            }, {
+														                'featureType': 'railway',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'visibility': 'off'
+														                }
+														            }, {
+														                'featureType': 'highway',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'color': '#fdfdfd'
+														                }
+														            }, {
+														                'featureType': 'highway',
+														                'elementType': 'labels',
+														                'stylers': {
+														                    'visibility': 'off'
+														                }
+														            }, {
+														                'featureType': 'arterial',
+														                'elementType': 'geometry',
+														                'stylers': {
+														                    'color': '#fefefe'
+														                }
+														            }, {
+														                'featureType': 'arterial',
+														                'elementType': 'geometry.fill',
+														                'stylers': {
+														                    'color': '#fefefe'
+														                }
+														            }, {
+														                'featureType': 'poi',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'visibility': 'off'
+														                }
+														            }, {
+														                'featureType': 'green',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'visibility': 'off'
+														                }
+														            }, {
+														                'featureType': 'subway',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'visibility': 'off'
+														                }
+														            }, {
+														                'featureType': 'manmade',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'color': '#d1d1d1'
+														                }
+														            }, {
+														                'featureType': 'local',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'color': '#d1d1d1'
+														                }
+														            }, {
+														                'featureType': 'arterial',
+														                'elementType': 'labels',
+														                'stylers': {
+														                    'visibility': 'off'
+														                }
+														            }, {
+														                'featureType': 'boundary',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'color': '#fefefe'
+														                }
+														            }, {
+														                'featureType': 'building',
+														                'elementType': 'all',
+														                'stylers': {
+														                    'color': '#d1d1d1'
+														                }
+														            }, {
+														                'featureType': 'label',
+														                'elementType': 'labels.text.fill',
+														                'stylers': {
+														                    'color': '#999999'
+														                }
+														            }]
+														        }
+														    },
+														    series : [
+														        {
+														            name: '水利系统灾情频率数据',
+														            type: 'effectScatter',
+														            coordinateSystem: 'bmap',
+														            data: convertData(data),
+														            symbolSize: function (val) {
+														                return val[2]*10;
+														            },
+														            encode: {
+														                value: 2
+														            },
+														            showEffectOn: 'render',
+														            rippleEffect: {
+														                brushType: 'stroke'
+														            },
+														            hoverAnimation: true,
+														            label: {
+														                formatter: '{b}',
+														                position: 'right',
+														                show: true
+														            },
+														            itemStyle: {
+														                color: 'purple',
+														                shadowBlur: 10,
+														                shadowColor: '#333'
+														            },
+														            zlevel: 1
+														        }
+														    ]
+														};
+														
+															if (option && typeof option === "object") 
+															{
+																myChart.setOption(option, true);
+															}
+														
+														//对饼图准备数据
+														var dataForPie = [];
+														
+														
+														for(var i = 0 ;i < res.count; ++i)
+														{
+															obj = new Object();
+															obj.name = gradeMap.get(res.data[i].grade);
+															obj.value = res.data[i].count;
+															dataForPie.push(obj);
+														}
+																														
+														var dom = document.getElementById("container14");
+														var myChart = echarts.init(dom);
+														option = {
+																	title: {
+																			text: '最新一次地震水利系统灾情等级统计图',
+																			left: 'center'
+																			},
+																	tooltip: {
+																				trigger: 'item',
+																				formatter: '{b} : {c} ({d}%)'
+																			},
+																	toolbox: {
+																				show: true,
+																				orient : 'vertical',
+																				left: 'right',
+																				top: 'center',
+																				feature : {
+																							mark : {},
+																							//dataView : {readOnly: false},
+																							//restore : {},
+																							//saveAsImage : {}
+																						  }
+																			},
+																	legend: {
+																				orient: 'vertical',
+																				left: 'left',
+																				data: ['基本完好', '轻微破坏', '中等破坏', '严重破坏', '毁坏']
+																			},
+																	series: [
+																				{
+																					name: '水利系统灾情数据',
+																					type: 'pie',
+																					radius: '55%',
+																					center: ['50%', '50%'],
+																					data: dataForPie,
+																					emphasis: {
+																					            itemStyle: {
+																								            shadowBlur: 10,
+																											shadowOffsetX: 0,
+																											shadowColor: 'rgba(0, 0, 0, 0.5)'
+																											}
+																							 }
+																				}
+																			]
+																}
+															if (option && typeof option === "object") 
+															{
+																myChart.setOption(option, true);
+															}
+						
+														
+									   	                }
+													else
+													    alert(res.msg);
+														resolve();
+														},
+							error:function(data){
+									   	alert("服务器繁忙");
+										reject();
+									   	}
+							
+							
+						});
+						})
+			
+			
+			}
+									    else{
+									        window.location.href="./login.html";}
+			},
+						error:function(data){
+									alert(JSON.stringify(data));
+									}
+											  
+								});
+			})
+			
+
+</script>
+</html>

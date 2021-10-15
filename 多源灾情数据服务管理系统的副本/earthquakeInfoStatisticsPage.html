@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+	<head>
+  <meta charset="utf-8">
+  <title>地震数据统计展示</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="./layui/css/layui.css"  media="all">
+	</head>
+	<body>
+		       <div id="container" style="width: 1000px;height:1000px;"></div>
+			   <script src="./layui/layui.js" charset="utf-8"></script>
+        <!-- <script src="http://api.map.baidu.com/api?v=2.0&ak=lwP645LnT0EubseWq32Z9xWapMeaNxgB"></script> -->
+		<script type="text/javascript" src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+		<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.0.1/dist/extension/bmap.js"></script> -->
+		       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js?v=1598903772045"></script>
+		       <!-- <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script> -->
+		       <!-- <script type="text/javascript" src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=lwP645LnT0EubseWq32Z9xWapMeaNxgB"></script> -->
+		       <!-- <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script> -->
+		       <!-- <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script> -->
+			    <script type="text/javascript">
+			   layui.use('jquery', function(){
+			   var $ = layui.$;
+			   
+			   
+			   var URL = 'http://10.5.103.127:9006';
+			   var URLInterpreter = "http://10.5.103.127:5001";
+			   // var URL = 'http://39.99.228.199:9006';
+			   var dataForProv=[];
+			   
+			   var proMap = new Map();
+			   
+			   $.ajax({
+			   			url: URLInterpreter+'/v1/user/permission',
+			   			type: 'get',
+			   			xhrFields:{
+			   			    withCredentials:true
+			   			},
+			   			success:function(res){
+			   							if(res.code== 0){
+			   
+			   proMap.set("11","北京");
+			   proMap.set("12","天津");
+			   proMap.set("13","河北");
+			   proMap.set("14","山西");
+			   proMap.set("15","内蒙古");
+			   proMap.set("21","辽宁");
+			   proMap.set("22","吉林");
+			   proMap.set("23","黑龙江");
+			   proMap.set("31","上海");
+			   proMap.set("32","江苏");
+			   proMap.set("33","浙江");
+			   proMap.set("34","安徽");
+			   proMap.set("35","福建");
+			   proMap.set("36","江西");
+			   proMap.set("37","山东");
+			   proMap.set("41","河南");
+			   proMap.set("42","湖北");
+			   proMap.set("43","湖南");
+			   proMap.set("44","广东");
+			   proMap.set("45","广西");
+			   proMap.set("46","海南");
+			   proMap.set("50","重庆");
+			   proMap.set("51","四川");
+			   proMap.set("52","贵州");
+			   proMap.set("53","云南");
+			   proMap.set("54","西藏");
+			   proMap.set("61","陕西");
+			   proMap.set("62","甘肃");
+			   proMap.set("63","青海");
+			   proMap.set("64","宁夏");
+			   proMap.set("65","新疆");
+			   proMap.set("71","台湾");
+			   proMap.set("81","香港");
+			   proMap.set("82","澳门");
+			   
+			   $.ajax({
+			   	url: URL+'/v1/provEarthquakeFrequency',
+			   	method: 'get',
+			   	success:function(res){
+			   	                    if(res.code === 0){
+										var pro=['11','12','13','14','15','21','22','23','31','32','33','34','35','36','37','41','42','43','44','45','46','50','51','52','53','54','61','62','63','64','65','71','81','82'];
+										for(var i=0;i<pro.length;i++){
+											var obj;
+											ob=new Object();
+											ob.name=proMap.get(pro[i]);
+											ob.value=0;
+											dataForProv.push(ob);
+										}
+
+										for(var i = 0 ; i <res.data.length ;i++)
+			   	                        {
+											obj = new Object();
+											obj.name = proMap.get(res.data[i].proCode);
+											
+											obj.value = res.data[i].count;
+											//console.log(obj);
+											dataForProv.push(obj);
+											//console.log(dataForProv);
+										}
+										// console.log(dataForProv);
+										var dom = document.getElementById("container");
+										   var myChart = echarts.init(dom);
+										   option = {
+										       title : {
+										           text: '地震频次统计图'
+										       },
+										       tooltip : {
+										           trigger: 'item',
+												   formatter: '{b}<br/>{c} 次'
+										       },
+										       visualMap: {
+										min: 0,
+										max: 50,
+										text: ['High', 'Low'],
+										realtime: false,
+										calculable: true,
+										inRange: {
+										    color: ['lightskyblue', 'yellow', 'orangered']
+										}
+										       },
+										       toolbox: {
+										           show: true,
+										           orient : 'vertical',
+										           left: 'right',
+										           top: 'center',
+										           feature : {
+										               mark : {},
+										               //dataView : {readOnly: false},
+										               //restore : {},
+										               //saveAsImage : {}
+										           }
+										       },
+										       series : [
+										           {
+										               name: 'provEarthquakeFrequency',
+										               type: 'map',
+										               mapType: 'china',
+										               roam: false,
+										               label: {
+										                       show: true
+										               },
+										               data:dataForProv,
+													   
+										           }
+										       ]
+										   };;
+										   if (option && typeof option === "object") {
+										       myChart.setOption(option, true);
+										   }
+			   	                    }
+			   	                    else
+			   	                        alert(res.msg);
+			   	                },
+			   	error:function(data){
+			   	alert("服务器繁忙");
+			   	}
+			   });
+			   
+			   }
+			   						    else{
+			   						        window.location.href="./login.html";}
+			   },
+			   			error:function(data){
+			   						alert(JSON.stringify(data));
+			   						}
+			   								  
+			   					});
+			   });
+			          </script>
+	</body>
+</html>

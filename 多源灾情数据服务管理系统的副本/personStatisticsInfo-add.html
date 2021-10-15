@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="UTF-8">
+        <title>人员伤亡信息添加</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+        <link rel="stylesheet" href="./css/font.css">
+        <link rel="stylesheet" href="./css/xadmin.css">
+		<link rel="stylesheet" href="./layui/css/layui.css"  media="all">
+		<script src="./layui/layui.js" charset="utf-8"></script>
+        <!-- <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script> -->
+        <script type="text/javascript" src="./js/xadmin.js"></script>
+	</head>
+	<body>
+		<div class="layui-fluid">
+		    <div class="layui-row">
+		        <form class="layui-form">
+					 <div class="layui-form-item">
+					    <label class="layui-form-label">
+							<span class="x-red">*</span>选择地区</label>
+					    <div class="layui-input-inline">
+					      <select name="province" id="province" lay-filter="province">
+					        <option value="">请选择省</option>
+					      </select>
+					    </div>
+					    <div class="layui-input-inline" >
+					      <select name="city" id="city" lay-filter="city">
+					        <option value="">请选择市</option>
+					      </select>
+					    </div>
+					    <div class="layui-input-inline">
+					      <select name="country" id="country" lay-filter="country">
+					        <option value="">请选择县/区</option>
+					      </select>
+					    </div>
+						<div class="layui-input-inline">
+						  <select name="town" id="town" lay-filter="town">
+						    <option value="">请选择街道/镇</option>
+						  </select>
+						</div>
+						<div class="layui-input-inline">
+						  <select name="village" id="village" lay-filter="village" lay-verify="required" >
+						    <option value="">请选择详细地址</option>
+						  </select>
+						</div>
+					    <!-- <div class="layui-form-mid layui-word-aux">此处只是演示联动排版，并未做联动交互</div> -->
+					  </div>
+					<div class="layui-form-item">
+					    <label for="category" class="layui-form-label">
+					        <span class="x-red">*</span>灾情类别</label>
+					    <div class="layui-input-block">
+					      <select name="category" lay-filter="category" id="category" lay-verify="required" >
+							  
+							<option value="" ></option> 
+					        <option value="111">人员伤亡及失踪-死亡</option>
+					        <option value="112">人员伤亡及失踪-受伤</option>
+					        <option value="113">人员伤亡及失踪-失踪</option>
+							
+					      </select>
+					    </div>
+					  </div>
+		            <div class="layui-form-item">
+		                <label for="date" class="layui-form-label">
+		                    <span class="x-red">*</span>日期</label>
+		                <div class="layui-input-block">
+		                        <input type="text" name="date" id="date" autocomplete="off" class="layui-input" lay-verify="required" >
+		                      </div>
+		            </div>
+		            <div class="layui-form-item">
+		                <label for="location" class="layui-form-label">
+		                    <span class="x-red">*</span>事发地点</label>
+		                <div class="layui-input-inline">
+		                    <input type="text" id="location" name="location" required="" maxlength="100" lay-verify="required" autocomplete="off" class="layui-input"></div>
+		            </div>
+		            <div class="layui-form-item">
+		                <label for="longitude" class="layui-form-label">
+		                    <span class="x-red">*</span>人数</label>
+		                <div class="layui-input-inline">
+		                    <input type="text" id="number" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="number" required="" lay-verify="required" autocomplete="off" class="layui-input"></div>
+		            </div>
+					<div class="layui-form-item">
+					    <label for="earthquakeId" class="layui-form-label">
+					        <span class="x-red">*</span>地震编码</label>
+							<div class="layui-input-inline">
+							  <select name="earthquakeId" id="earthquakeId" lay-filter="earthquakeId" lay-verify="required" >
+							    <option value="">请选择地震</option>
+							  </select>
+							</div>
+					    <!-- <div class="layui-input-inline">
+					        <input type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="26" id="earthquake-id" name="number" required="" lay-verify="required" autocomplete="off" class="layui-input"></div> -->
+					</div>
+		<div class="layui-form-item">
+		    <label for="source" class="layui-form-label">
+		        <span class="x-red">*</span>来源</label>
+		    <div class="layui-input-block">
+		      <select name="source" lay-filter="source" id="source" lay-verify="required" >
+		    	
+		    	<option value="" ></option> 
+		        <option value="101">业务报送数据</option>
+		    	<option value="401">承载体基础数据</option>
+					
+		      </select>
+		    </div>
+		</div><div class="layui-form-item">
+		    <label for="reporting-unit" class="layui-form-label">
+		        <span class="x-red">*</span>上报单位</label>
+		    <div class="layui-input-inline">
+		        <input type="text" id="reporting-unit" name="reporting-unit" required="" maxlength="50" lay-verify="required" autocomplete="off" class="layui-input"></div>
+		</div>
+		<div class="layui-form-item">
+		    <div class="layui-input-block">
+		      <button type="submit" class="layui-btn" lay-submit="" lay-filter="submit" onClick="return false">立即提交</button>
+		      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+		    </div>
+		  </div>
+		</form>
+		</div>
+		</div>
+		<script>layui.use(['form', 'layer', 'laydate', 'slider', 'upload'],
+		    function() {
+		        var $ = layui.jquery;
+		        var form = layui.form;
+		        var layer = layui.layer;
+				var laydate = layui.laydate;
+				var slider = layui.slider;
+				var upload = layui.upload;
+				var picpath = null;
+				var URL = 'http://10.5.103.127:8006';
+				var uploadUrl = 'http://10.5.103.127:8001';
+				var URLInterpreter = "http://10.5.103.127:5001";
+				// var URL = 'http://39.99.228.199:8006';
+				// var uploadUrl = 'http://39.99.228.199:8001';
+				
+				$.ajax({
+							url: URLInterpreter+'/v1/user/permission',
+							type: 'get',
+							xhrFields:{
+							    withCredentials:true
+							},
+							success:function(res){
+											if(res.code== 0){
+				//添加省份
+				$.ajax({
+					url: URL+'/v1/provinceAid',
+					method: 'get',
+					success:function(res){
+					                    if(res.code=='0'){
+											var data = res.data;
+											console.log(res);
+										    console.log(data);
+											$('#province').empty();
+											var option = document.createElement("option");
+											
+											var province = document.getElementById("province");
+											province.appendChild(option);
+											form.render('select');
+											for(var i = 0;i < res.count;i++){
+												var option = document.createElement("option");
+												option.setAttribute('value',data[i].code);
+												option.innerHTML = data[i].name;
+												var province = document.getElementById("province");
+												province.appendChild(option);
+												form.render('select');
+											}
+											
+					                    }
+					                    else
+					                        alert(res.msg);
+					                },
+					error:function(data){
+					layer.alert("服务器繁忙");
+					}
+							  
+				});
+				
+				//监听省份改变市
+				form.on('select(province)', function(data){
+				  $.ajax({
+				  	url: URL+'/v1/cityAid/'+data.value,
+				  	method: 'get',
+				  	success:function(res){
+				  	                    if(res.code=='0'){
+				  							var data = res.data;
+											// console.log(data);
+											$('#city').empty();
+											var option = document.createElement("option");
+											var province = document.getElementById("city");
+											province.appendChild(option);
+											form.render('select');
+				  							for(var i = 0;i < res.count;i++){
+				  								var option = document.createElement("option");
+				  								option.setAttribute('value',data[i].code);
+				  								option.innerHTML = data[i].name;
+				  								var province = document.getElementById("city");
+				  								province.appendChild(option);
+				  								form.render('select');
+				  							}
+				  							
+				  	                    }
+				  	                    else
+				  	                        alert(res.msg);
+				  	                },
+				  	error:function(data){
+				  	layer.alert("请选择省份");
+				  	}
+				  			  
+				  });
+				});
+				
+				//监听市改变县/区
+				form.on('select(city)', function(data){
+				  $.ajax({
+				  	url: URL+'/v1/countryAid/'+data.value,
+				  	method: 'get',
+				  	success:function(res){
+				  	                    if(res.code=='0'){
+				  							var data = res.data;
+											// console.log(data);
+											$('#country').empty();
+											var option = document.createElement("option");
+											var province = document.getElementById("country");
+											province.appendChild(option);
+											form.render('select');
+				  							for(var i = 0;i < res.count;i++){
+				  								var option = document.createElement("option");
+				  								option.setAttribute('value',data[i].code);
+				  								option.innerHTML = data[i].name;
+				  								var province = document.getElementById("country");
+				  								province.appendChild(option);
+				  								form.render('select');
+				  							}
+				  							
+				  	                    }
+				  	                    else
+				  	                        alert(res.msg);
+				  	                },
+				  	error:function(data){
+				  	layer.alert("请选择城市");
+				  	}
+				  			  
+				  });
+				});
+				//监听县/区改变街道/镇
+				form.on('select(country)', function(data){
+				  $.ajax({
+				  	url: URL+'/v1/townAid/'+data.value,
+				  	method: 'get',
+				  	success:function(res){
+				  	                    if(res.code=='0'){
+				  							var data = res.data;
+											// console.log(data);
+											$('#town').empty();
+											var option = document.createElement("option");
+											
+											var province = document.getElementById("town");
+											province.appendChild(option);
+											form.render('select');
+				  							for(var i = 0;i < res.count;i++){
+				  								var option = document.createElement("option");
+				  								option.setAttribute('value',data[i].code);
+				  								option.innerHTML = data[i].name;
+				  								var province = document.getElementById("town");
+				  								province.appendChild(option);
+				  								form.render('select');
+				  							}
+				  							
+				  	                    }
+				  	                    else
+				  	                        alert(res.msg);
+				  	                },
+				  	error:function(data){
+				  	layer.alert("请选择县区");
+				  	}
+				  			  
+				  });
+				});
+				//监听街道/镇改变详细地址
+				form.on('select(town)', function(data){
+				  $.ajax({
+				  	url: URL+'/v1/villageAid/'+data.value,
+				  	method: 'get',
+				  	success:function(res){
+				  	                    if(res.code=='0'){
+				  							var data = res.data;
+											// console.log(data);
+											$('#village').empty();
+											var option = document.createElement("option");
+											
+											var province = document.getElementById("village");
+											province.appendChild(option);
+											form.render('select');
+				  							for(var i = 0;i < res.count;i++){
+				  								var option = document.createElement("option");
+				  								option.setAttribute('value',data[i].code);
+				  								option.innerHTML = data[i].name;
+				  								var province = document.getElementById("village");
+				  								province.appendChild(option);
+				  								form.render('select');
+				  							}
+				  							
+				  	                    }
+				  	                    else
+				  	                        alert(res.msg);
+				  	                },
+				  	error:function(data){
+				  	layer.alert("请选择街道");
+				  	}
+				  			  
+				  });
+				});
+				
+				$.ajax({
+					url: 'http://10.5.103.127:9006/v1/getalldisasterinfo',
+					method: 'get',
+					success:function(res){
+										console.log(res);
+										var data = res;
+										//console.log(res);
+										console.log(data);
+										
+										for(var i = 0;i < data.length;i++){
+											var option = document.createElement("option");
+											option.setAttribute('value',data[i].id);
+											option.innerHTML = data[i].id;
+											var earthquakeId = document.getElementById("earthquakeId");
+											earthquakeId.appendChild(option);
+											form.render('select');
+										}
+										//$('#earthquakeId').empty();
+											
+
+					                },
+					error:function(data){
+					layer.alert("服务器繁忙");
+					}
+							  
+				});
+		
+		        // //自定义验证规则
+		        // form.verify({
+		        //     nikename: function(value) {
+		        //         if (value.length < 5) {
+		        //             return '昵称至少得5个字符啊';
+		        //         }
+		        //     },
+		        //     pass: [/(.+){6,12}$/, '密码必须6到12位'],
+		        //     repass: function(value) {
+		        //         if ($('#L_pass').val() != $('#L_repass').val()) {
+		        //             return '两次密码不一致';
+		        //         }
+		        //     }
+		        // });
+				//滑块
+				// slider.render({
+				//     elem: '#slideTest1',
+				// 	step: 0.1 ,
+				// 	min: 0 ,
+				// 	max: 10 
+				//   });
+				//   slider.render({
+				//       elem: '#slideTest',
+				//   	step: 1 ,
+				//   	min: 20 ,
+				//   	max: 1000 
+				//     });
+				
+				//日期
+				 laydate.render({
+				    elem: '#date',
+					type: 'datetime'
+				  });
+				  
+		
+		        //监听提交
+		        form.on('submit(submit)',
+		        function(data) {
+					var province = $("#province").find("option:selected").text();
+					var city = $("#city").find("option:selected").text();
+					var country = $("#country").find("option:selected").text();
+					var town = $("#town").find("option:selected").text();
+					var village = $("#village").find("option:selected").text();
+					// var grade = $("#grade").val();
+					var category = $("#category").val();
+					var location = $("#location").val();
+					var date = $("#date").val();
+					var number = $("#number").val();
+					var earthquakeId = $("#earthquakeId").val();
+					var source = $("#source").val();
+					var reportingUnit = $("#reporting-unit").val();
+					var data =  {
+						"province": province,
+						"city": city,
+						"country": country,
+						"town": town,
+						"village": village,
+						"category": category,
+						"date": date,
+						"location": location,
+						"number": number,
+						"earthquakeId": earthquakeId,
+						"source": source,
+						"reportingUnit": reportingUnit
+						};
+					$.ajax({
+						url: uploadUrl+'/v1/addRecode',
+						method: 'POST',
+                        contentType:'application/json',
+                        data: JSON.stringify(data),
+						dataType: 'json',
+						success:function(res){
+						                    if(res.code=== 0){
+											// window.location.reload();
+											// xadmin.father_reload();
+											layer.alert("添加成功！");
+						                    }
+						                    else{
+						                    layer.alert("添加失败！");}
+											xadmin.father_reload();
+						                },
+						error:function(data){
+						layer.alert("服务器繁忙，添加失败！");
+						}
+								  
+					});
+		            // console.log(data);
+		            // //发异步，把数据提交给php
+		            // layer.alert("增加成功", {
+		            //     icon: 6
+		            // },
+		            // function() {
+		            //     // 获得frame索引
+		            //     var index = parent.layer.getFrameIndex(window.name);
+		            //     //关闭当前frame
+		            //     parent.layer.close(index);
+		            // });
+		            // return false;
+		        });
+				
+				}
+										    else{
+										        window.location.href="./login.html";}
+				},
+							error:function(data){
+										alert(JSON.stringify(data));
+										}
+												  
+									});
+				
+				
+		
+		    });</script>
+		<script>var _hmt = _hmt || []; (function() {
+		        var hm = document.createElement("script");
+		        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+		        var s = document.getElementsByTagName("script")[0];
+		        s.parentNode.insertBefore(hm, s);
+		    })();</script>
+	</body>
+</html>
