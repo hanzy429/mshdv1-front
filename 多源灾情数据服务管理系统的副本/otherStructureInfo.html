@@ -64,7 +64,10 @@
                             table.render({
                                 elem: '#otherStructureTb',
                                 url: URL + '/v1/otherStructure',
+								
                                 page: true,
+								toolbar: '#toolbarDemo',
+								defaultToolbar: ['filter', 'exports', 'print'],
                                 cols: [
                                     [
                                         //{type:'checkbox', fixed: 'left'},
@@ -138,6 +141,8 @@
                                 elem: '#otherStructureTb',
                                 url: URL + '/v1/otherStructure/' + time,
                                 page: true,
+								toolbar: '#toolbarDemo',
+								defaultToolbar: ['filter', 'exports', 'print'],
                                 cols: [
                                     [
                                         //{type:'checkbox', fixed: 'left'},
@@ -256,6 +261,8 @@
                                                     elem: '#otherStructureTb',
                                                     url: URL + '/v1/otherStructure',
                                                     page: true,
+													toolbar: '#toolbarDemo',
+													defaultToolbar: ['filter', 'exports', 'print'],
                                                     cols: [
                                                         [
                                                             //{type:'checkbox', fixed: 'left'},
