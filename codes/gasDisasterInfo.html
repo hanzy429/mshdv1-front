@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>燃气灾情信息</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="./layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+
+<body>
+
+    <form class="layui-form" action="">
+        <div class="layui-btn-group demoTable">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="recent1" onClick="return false">最近24小时</button>
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="recent2" onClick="return false">最近7天</button>
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="recent3" onClick="return false">最近1个月</button>
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="recent4" onClick="return false">最近6个月</button>
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="recent5" onClick="return false">最近1年</button>
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="recent6" onClick="return false">全部</button>
+        </div>
+    </form>
+
+    <table id="gasDisasterTb" lay-filter="gasDisasterTb"></table>
+    <div class="layui-card-header">
+        <!-- <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button> -->
+        <button class="layui-btn" onclick="xadmin.open('添加生命线灾情数据','./lifeline-add.html',1200,600)"><i class="layui-icon"></i>添加</button>
+    </div>
+
+    <script type="text/html" id="barDemo">
+        <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a> -->
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+    <script type="text/html" id="pictureTpl">
+        <a href="{{d.picture}}" target="_blank" class="layui-table-link">查看图片</a>
+    </script>
+    <script src="./layui/layui.js" charset="utf-8"></script>
+    <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+    <script>
+        layui.use('table', function() {
+            var form = layui.form;
+            var table = layui.table;
+            var $ = layui.$;
+            var URL = 'http://localhost:9006';
+            var URLInterpreter = "http://localhost:5001";
+            // var URL = 'http://39.99.228.199:9006';
+
+
+            $.ajax({
+                url: URLInterpreter + '/v1/user/permission',
+                type: 'get',
+                xhrFields: {
+                    withCredentials: true
+                },
+                success: function(res) {
+                    if (res.code == 0) {
+                        //渲染表格数据
+                        function tableRender() {
+                            table.render({
+                                elem: '#gasDisasterTb',
+                                url: URL + '/v1/gasDisaster',
+                                page: true,
+                                toolbar: '#toolbarDemo',
+                                defaultToolbar: ['filter', 'exports', 'print'],
+                                cols: [
+                                    [
+                                        //{type:'checkbox', fixed: 'left'},
+                                        {
+                                            field: 'id',
+                                            title: 'ID',
+                                            width: 180,
+                                            sort: true,
+                                            fixed: true
+                                        }, {
+                                            field: 'date',
+                                            title: '日期',
+                                            width: 170,
+                                            sort: true,
+                                            edit: true
+                                        }, {
+                                            field: 'location',
+                                            title: '地点',
+                                            width: 70,
+                                            edit: true
+                                        }, {
+                                            field: 'type',
+                                            title: '类型',
+                                            width: 70,
+                                            edit: true
+                                        }, {
+                                            field: 'grade',
+                                            title: '破坏等级',
+                                            width: 100,
+                                            edit: true
+                                        }, {
+                                            field: 'picture',
+                                            title: '图片',
+                                            width: 100,
+                                            templet: '#pictureTpl'
+                                        }, {
+                                            field: 'note',
+                                            title: '破坏情况描述',
+                                            width: 150,
+                                            edit: true
+                                        }, {
+                                            field: 'reportingUnit',
+                                            title: '上报单位',
+                                            width: 100,
+                                            edit: true
+                                        }, {
+                                            fixed: 'right',
+                                            width: 120,
+                                            align: 'center',
+                                            toolbar: '#barDemo'
+                                        }
+                                    ]
+                                ]
+                            });
+                        }
+
+                        tableRender();
+
+                        //最近显示
+                        function ShowRecentData(time) {
+
+                            table.render({
+                                elem: '#gasDisasterTb',
+                                url: URL + '/v1/gasDisaster/' + time,
+                                page: true,
+                                toolbar: '#toolbarDemo',
+                                defaultToolbar: ['filter', 'exports', 'print'],
+                                cols: [
+                                    [
+                                        //{type:'checkbox', fixed: 'left'},
+                                        {
+                                            field: 'id',
+                                            title: 'ID',
+                                            width: 180,
+                                            sort: true,
+                                            fixed: true
+                                        }, {
+                                            field: 'date',
+                                            title: '日期',
+                                            width: 170,
+                                            sort: true,
+                                            edit: true
+                                        }, {
+                                            field: 'location',
+                                            title: '地点',
+                                            width: 70,
+                                            edit: true
+                                        }, {
+                                            field: 'type',
+                                            title: '类型',
+                                            width: 70,
+                                            edit: true
+                                        }, {
+                                            field: 'grade',
+                                            title: '破坏等级',
+                                            width: 100,
+                                            edit: true
+                                        }, {
+                                            field: 'picture',
+                                            title: '图片',
+                                            width: 100,
+                                            templet: '#pictureTpl'
+                                        }, {
+                                            field: 'note',
+                                            title: '破坏情况描述',
+                                            width: 150,
+                                            edit: true
+                                        }, {
+                                            field: 'reportingUnit',
+                                            title: '上报单位',
+                                            width: 100,
+                                            edit: true
+                                        }, {
+                                            fixed: 'right',
+                                            width: 120,
+                                            align: 'center',
+                                            toolbar: '#barDemo'
+                                        }
+                                    ]
+                                ]
+                            });
+                        }
+
+                        //监听form
+                        form.on('submit(recent1)', function(data) {
+                            ShowRecentData(1);
+                        });
+                        form.on('submit(recent2)', function(data) {
+                            ShowRecentData(7);
+                        });
+                        form.on('submit(recent3)', function(data) {
+                            ShowRecentData(31);
+                        });
+                        form.on('submit(recent4)', function(data) {
+                            ShowRecentData(180);
+                        });
+                        form.on('submit(recent5)', function(data) {
+                            ShowRecentData(365);
+                        });
+                        form.on('submit(recent6)', function(data) {
+                            //渲染表格数据
+                            tableRender();
+                        });
+
+                        //监听表格复选框选择
+                        table.on('checkbox(gasDisasterTb)', function(obj) {
+                            console.log(obj)
+                        });
+
+                        //监听工具条
+                        table.on('tool(gasDisasterTb)', function(obj) {
+                            var data = obj.data;
+                            if (obj.event === 'detail') {
+                                //将localStorage传递到哪个页面
+                                // location.href = 'map.html';
+                                // var d = JSON.stringify(data);
+                                // //设置localStorage
+                                // window.localStorage.setItem("data",d);
+                                // xadmin.open('位置显示','./map.html',800,800)
+                                layer.alert(JSON.stringify(data));
+                                // layer.msg('ID：'+ data.id + ' 的查看操作');
+                            } else if (obj.event === 'del') {
+                                layer.confirm('真的删除行么', function(index) {
+                                    $.ajax({
+                                        url: URL + '/v1/gasDisaster/' + data.id,
+                                        method: 'delete',
+                                        success: function(res) {
+                                            if (res.code === 0) {
+                                                // obj.del();
+                                                // layer.close(index);
+                                                layer.alert("删除成功！");
+                                                //修改:render中的内容
+                                                tableRender({
+                                                    elem: '#gasDisasterTb',
+                                                    url: URL + '/v1/gasDisaster/',
+                                                    page: true,
+                                                    toolbar: '#toolbarDemo',
+                                                    defaultToolbar: ['filter', 'exports', 'print'],
+                                                    cols: [
+                                                        [
+                                                            //{type:'checkbox', fixed: 'left'},
+                                                            {
+                                                                field: 'id',
+                                                                title: 'ID',
+                                                                width: 180,
+                                                                sort: true,
+                                                                fixed: true
+                                                            }, {
+                                                                field: 'date',
+                                                                title: '日期',
+                                                                width: 170,
+                                                                sort: true,
+                                                                edit: true
+                                                            }, {
+                                                                field: 'location',
+                                                                title: '地点',
+                                                                width: 70,
+                                                                edit: true
+                                                            }, {
+                                                                field: 'type',
+                                                                title: '类型',
+                                                                width: 70,
+                                                                edit: true
+                                                            }, {
+                                                                field: 'grade',
+                                                                title: '破坏等级',
+                                                                width: 100,
+                                                                edit: true
+                                                            }, {
+                                                                field: 'picture',
+                                                                title: '图片',
+                                                                width: 100,
+                                                                templet: '#pictureTpl'
+                                                            }, {
+                                                                field: 'note',
+                                                                title: '破坏情况描述',
+                                                                width: 150,
+                                                                edit: true
+                                                            }, {
+                                                                field: 'reportingUnit',
+                                                                title: '上报单位',
+                                                                width: 100,
+                                                                edit: true
+                                                            }, {
+                                                                fixed: 'right',
+                                                                width: 120,
+                                                                align: 'center',
+                                                                toolbar: '#barDemo'
+                                                            }
+                                                        ]
+                                                    ]
+                                                });
+                                            } else
+                                                alert(res.msg);
+                                        },
+                                        error: function(data) {
+                                            alert("服务器繁忙");
+                                        }
+
+                                    })
+                                });
+                            } else if (obj.event === 'edit') {
+                                console.log(data);
+                                layer.open({
+                                    type: 2,
+                                    title: '编辑',
+                                    content: './gasDisasterInfo-edit.html?id=' + data.id,
+                                    //content: ['./disasterInfo-edit.html?id' + data.id],
+                                    area: ['700px', '300px'],
+                                    anim: 5
+                                });
+
+
+
+                            }
+                        });
+
+                        var $ = layui.$,
+                            active = {
+                                getCheckData: function() { //获取选中数据
+                                    var checkStatus = table.checkStatus('gasDisasterTb'),
+                                        data = checkStatus.data;
+                                    layer.alert(JSON.stringify(data));
+                                },
+                                getCheckLength: function() { //获取选中数目
+                                    var checkStatus = table.checkStatus('gasDisasterTb'),
+                                        data = checkStatus.data;
+                                    layer.msg('选中了：' + data.length + ' 个');
+                                },
+                                isAll: function() { //验证是否全选
+                                    var checkStatus = table.checkStatus('gasDisasterTb');
+                                    layer.msg(checkStatus.isAll ? '全选' : '未全选')
+                                }
+                            };
+
+                    } else {
+                        window.location.href = "./login.html";
+                    }
+                },
+                error: function(data) {
+                    alert(JSON.stringify(data));
+                }
+
+            });
+
+            // $('.demoTable .layui-btn').on('click', function(){
+            //   var type = $(this).data('type');
+            //   active[type] ? active[type].call(this) : '';
+            // });
+        });
+    </script>
+</body>
+
+</html>
