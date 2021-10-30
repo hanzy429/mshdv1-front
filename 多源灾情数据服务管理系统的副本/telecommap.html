@@ -81,9 +81,7 @@ new Vue({
         });
     var rsu=[];
     var last=[];
-    var map = initMap({
-                tilt: 0
-            });
+    var map = new BMapGL.Map('map_container');
     var view = new mapvgl.View({
                 map: map
             });
@@ -93,7 +91,7 @@ new Vue({
             this.res=response.data;
             var data=[]
             rsu=this.res.data;
-            console.log(rsu)
+            console.log(res);
             for (var i = 0; i < rsu.length; i++) {
                 lon=rsu[i][0];
                 lat=rsu[i][1];
@@ -126,6 +124,7 @@ new Vue({
                 this.res=response.data;
                 var data=[]
                 rsu=this.res.data;
+                console.log(rsu)
                 for(var i=0;i<rsu.length;i++){
                     if(last[i][0]==rsu[i][0])
                         count++;

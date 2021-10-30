@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+    body, html {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
+    #allmap {
+        height: 100%;
+        width: 100%;
+    }
+    ul li {
+        list-style: none;
+    }
+    .btn-wrap {
+        z-index: 999;
+        position: fixed;
+        bottom: 3.5rem;
+        margin-left: 3rem;
+        padding: 1rem 1rem;
+        border-radius: .25rem;
+        background-color: #fff;
+        box-shadow: 0 2px 6px 0 rgba(27, 142, 236, 0.5);
+    }
+    .btn {
+        width: 75px;
+        height: 30px;
+        float: left;
+        background-color: #fff;
+        color: rgba(27, 142, 236, 1);
+        font-size: 14px;
+        border:1px solid rgba(27, 142, 236, 1);
+        border-radius: 5px;
+        margin: 0 5px;
+        text-align: center;
+        line-height: 30px;
+    }
+    .btn:hover {
+        background-color: rgba(27, 142, 236, 0.8);
+        color: #fff;
+    }
+</style>
+        <script src="https://api.map.baidu.com/api?v=2.0&type=webgl&ak=LLEN6QG5YCZPSoPH1yetoA6m6Ufhouj3"></script>
+        <script src="https://mapv.baidu.com/build/mapv.min.js"></script>
+        <script src="https://mapv.baidu.com/gl/examples/static/common.js"></script>
+        <script src="https://code.bdstatic.com/npm/mapvgl@1.0.0-beta.131/dist/mapvgl.min.js"></script>
+        <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>影响场</title>
+</head>
+<body>
+    <div id="allmap"></div>
+
+</body>
+</html>
+    <script type="text/javascript">
+    // 创建点
+    var marker = new BMapGL.Marker(new BMapGL.Point(116.404, 39.915));
+    // 创建多边形
+    // 添加覆盖物
+    // function addOverlay() {
+    //     map.addOverlay(polygon); // 增加多边形/ 增加矩形
+    // }
+    // // 清除覆盖物
+    // function removeOverlay() {
+    //     map.clearOverlays();
+    // }
+    // addOverlay();
+    new Vue({
+        el: '#allmap',
+        data :{
+            res:null
+        },
+        mounted () {
+            var point = new BMapGL.Point(116.350591,39.963096);
+            var rsu=[];
+            var last=[];
+            var map = new BMapGL.Map('allmap');
+            // axios.get('http://localhost:8018')
+            // .then(
+            //     function(response){
+                    // this.res=response.data;
+                    // console.log(res)
+                    // var data=[]
+                    // rsu=this.res.data;
+                    // console.log(res);
+                    // for (var i = 0; i < rsu.length; i++) {
+                    //     lon=rsu[i][0];
+                    //     lat=rsu[i][1];
+                    //     data.push(new BMapGL.Point(lon, lat))
+                    //     console.log(lon,lat)
+                    // }
+                    // var polygon = new BMapGL.Polygon(
+                    //     data, 
+                    // {
+                    //     strokeColor: 'red',
+                    //     strokeWeight: 2,
+                    //     strokeOpacity: 0.5
+                    // });
+                    function add_oval(centre,x,y)
+                    {
+                        var assemble=new Array();
+                        var angle;
+                        var dot;
+                        var tangent=x/y; 
+                        for(i=0;i<360;i++)
+                        {
+                            angle = (2* Math.PI / 360) * i;
+                            dot = new BMapGL.Point(centre.lng+Math.sin(angle)*y*tangent, centre.lat+Math.cos(angle)*y);
+                            dot.lng= (dot.lng-centre.lng)*Math.cos(30*Math.PI/180)-(dot.lat-centre.lat)*Math.sin(30*Math.PI/180)+centre.lng;    
+                            dot.lat= (dot.lng-centre.lng)*Math.sin(30*Math.PI/180)+(dot.lat-centre.lat)*Math.cos(30*Math.PI/180)+centre.lat;
+                            assemble.push(dot);
+                        }
+                        return assemble;
+                    }
+                    var oval = new BMapGL.Polygon(add_oval(point,0.0040,0.003), {strokeColor:"red", strokeWeight:2, fillOpacity: 0.10,strokeOpacity:1,fillColor:"rgb(243, 20, 20)"});
+                    var ovall = new BMapGL.Polygon(add_oval(point,0.0030,0.002), {strokeColor:"red", strokeWeight:2,fillOpacity: 0.15,strokeOpacity:1,fillColor:"rgb(243, 20, 20)"});
+                    var ovalll = new BMapGL.Polygon(add_oval(point,0.0015,0.001), {strokeColor:"red", strokeWeight:2, fillOpacity: 0.3,strokeOpacity:1,fillColor:"rgb(243, 20, 20)"});
+                    map.centerAndZoom(point, 17);
+                    map.enableScrollWheelZoom(true);
+                    map.addOverlay(oval);
+                    map.addOverlay(ovall);
+                    map.addOverlay(ovalll);
+                    // map.addOverlay(polygon);  
+                // }
+            // )
+            // .catch(function (error) { // 请求失败处理
+            //     console.log(error);
+            // });   
+            // var updatet=function(){
+            //     data=[];
+            //     last=rsu;
+            //     var count=0;
+            //     axios.get('http://localhost:8018')
+            //     .then(
+            //         function(response){
+            //             this.res=response.data;
+            //             var data=[]
+            //             rsu=this.res.data;
+            //             console.log(rsu)
+            //             for(var i=0;i<rsu.length;i++){
+            //                 if(last[i][0]==rsu[i][0])
+            //                     count++;
+            //                 if(last[i][1]==rsu[i][1])
+            //                     count++;
+            //                 if(last[i][2]==rsu[i][2])
+            //                     count++;  
+            //             }
+            //             if(count==3*rsu.length){
+            //                 console.log("fail");
+            //             }
+            //             else{
+            //                 for (var i = 0; i < rsu.length; i++) {
+            //                 lon=rsu[i][0];
+            //                 lat=rsu[i][1];
+            //                 data.push({
+            //                     geometry: {
+            //                         type: 'Point',
+            //                         coordinates: [lon, lat]
+            //                     },
+            //                     properties: {
+            //                         count: rsu[i][2]
+            //                     }
+            //                 });
+            //             }
+            //             view.addLayer(heatmap);
+            //             heatmap.setData(data);
+            //             }  
+            //         }
+            //     )
+            //     .catch(function (error) { // 请求失败处理
+            //         console.log(error);
+            //     });
+            // }
+            // var stopfun=function(){
+            //     view.removeLayer(heatmap);
+            // }
+            // var updateTime=function(){
+            //     updatet();
+            // }
+            // setInterval(updateTime,5000);
+        },
+        })
+    </script>
