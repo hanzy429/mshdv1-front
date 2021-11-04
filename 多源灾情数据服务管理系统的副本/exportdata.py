@@ -24,7 +24,7 @@ def exportdata():
             tup=(i[0],i[1],random.randint(0,9))
             dic.append(tup)
     else:
-        f=open("./telecom.js","r")
+        f=open("/usr/share/nginx/html/telecom.js","r")
         return(f.read())
     dic2={}
     dic2['data']=dic

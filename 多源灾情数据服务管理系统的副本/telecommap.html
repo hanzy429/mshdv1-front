@@ -85,7 +85,7 @@ new Vue({
     var view = new mapvgl.View({
                 map: map
             });
-    axios.get('http://localhost:8008')
+    axios.get('http://114.116.249.36:8008')
       .then(
           function(response){
             this.res=response.data;
@@ -118,7 +118,7 @@ new Vue({
         data=[];
         last=rsu;
         var count=0;
-        axios.get('http://localhost:8008')
+        axios.get('http://114.116.249.36:8008')
         .then(
             function(response){
                 this.res=response.data;
