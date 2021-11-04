@@ -55,7 +55,7 @@
 			var getspstuatus
 			var statustext
 			function getSpiderStatus(){
-				var URL = 'http://114.116.249.36:3002';
+				var URL = 'http://localhost:3002';
 				$.ajax({
 					url: URL+'/api/getSpiderStatus',
 					method:'GET',
@@ -104,9 +104,9 @@
 				var slider = layui.slider;
 				var upload = layui.upload;
 				var picpath = null;
-				var URL = 'http://114.116.249.36:3002';
-				// var uploadUrl = 'http://114.116.249.36:8001';
-				var URLInterpreter = "http://114.116.249.36:5001";
+				var URL = 'http://localhost:3002';
+				// var uploadUrl = 'http://localhost:8001';
+				var URLInterpreter = "http://localhost:5001";
 				// var URL = 'http://39.99.228.199:8006';
 				// var uploadUrl = 'http://39.99.228.199:8001';
 				
@@ -245,7 +245,7 @@
 		        s.parentNode.insertBefore(hm, s);
 		    })();</script>
 			<script>
-				var URL = 'http://114.116.249.36:3002';
+				var URL = 'http://localhost:3002';
 				var myVar=''
 				function prediction(){
 					$.ajax({
