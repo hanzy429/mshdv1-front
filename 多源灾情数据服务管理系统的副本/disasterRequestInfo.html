@@ -27,8 +27,10 @@
         </div>
 		 
 		<script type="text/html" id="barDemo">
-		  <a class="layui-btn layui-btn-xs" lay-event="edit">处理</a>
-		  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+		
+				<a class="layui-btn layui-btn-xs" lay-event="edit">发送文件</a>
+				<a class="layui-btn layui-btn-xs" lay-event="detail">发送数据库</a>
+				<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 		</script>
 		<script src="./layui/layui.js" charset="utf-8"></script>
 		<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
@@ -99,7 +101,7 @@
       }},
                   {field:'oURL', title:'发送地址', width:200, fixed: true},
 				  {field:'requestUnit', title:'请求单位', width:200, fixed: true},
-                  {fixed: 'right', width:120, align:'center', toolbar: '#barDemo'}  
+                  {fixed: 'right', width:250, align:'center', toolbar: '#barDemo'}  
 			  ]]
 		  });}
 		  renderTable();
@@ -112,14 +114,29 @@
 		  table.on('tool(disasterRequestTb)', function(obj){
 		    var data = obj.data;
 		    if(obj.event === 'detail'){
-				//将localStorage传递到哪个页面
-				// location.href = 'map.html';
-				// var d = JSON.stringify(data);
-				// //设置localStorage
-				// window.localStorage.setItem("data",d);
-				// xadmin.open('位置显示','./map.html',800,800)
-				layer.alert(JSON.stringify(data));
-		      // layer.msg('ID：'+ data.id + ' 的查看操作');
+				if(data.status === '1')
+				{
+					layer.alert("此请求已经处理过！")
+				}
+				else 
+				{
+		      $.ajax({
+		      	url: URL+'/v1/disasterSqlRequest'+'/'+data.id+'/'+data.disasterType,
+		      	method: 'put',
+		      	success:function(res){
+		      	                    if(res.code === 1){
+		      	                        layer.alert("成功入库！");
+										renderTable();
+		      	                    }
+		      	                    else
+		      	                        layer.alert("该数据已经入库！");
+										renderTable();
+		      	                },
+		      	error:function(data){
+		      	layer.alert("该数据已经入库！");
+		      	}
+		      });
+			  }
 		    } 
 			else if(obj.event === 'del'){
 				layer.confirm('真的删除行么', function(index){
