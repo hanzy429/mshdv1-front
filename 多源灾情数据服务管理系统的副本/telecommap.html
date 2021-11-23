@@ -63,7 +63,7 @@ var sleep = function(time)
 new Vue({
   el: '#map_container',
   data :{
-    res:null
+    res:null,
   },
   mounted () {
     var point = new BMapGL.Point(116.350591,39.963096);
@@ -82,12 +82,17 @@ new Vue({
     var rsu=[];
     var last=[];
     var map = new BMapGL.Map('map_container');
+    var xgrids = [];//经线
+    var ygrids = [];//纬线
+    var beSelectBounds = {};
+    var bounds = null;//当前地图的四个顶点
+    var span = null;//当前网格的跨度
     var view = new mapvgl.View({
                 map: map
             });
     axios.get('http://114.116.249.36:8008')
       .then(
-          function(response){
+        function(response){
             this.res=response.data;
             var data=[]
             rsu=this.res.data;
@@ -109,12 +114,22 @@ new Vue({
             map.enableScrollWheelZoom(true);  
             view.addLayer(heatmap);
             heatmap.setData(data);
-          }
+            redraw();
+            map.addEventListener("dragend", function () {
+                redraw()
+            });
+                //添加放大或缩小时的事件
+            map.addEventListener("zoomend", function () {
+                redraw();
+            });
+        }
       )
       .catch(function (error) { // 请求失败处理
         console.log(error);
-      });   
-    var updatet=function(){
+      });
+      
+      
+    var updateTime=function(){
         data=[];
         last=rsu;
         var count=0;
@@ -158,12 +173,52 @@ new Vue({
         .catch(function (error) { // 请求失败处理
             console.log(error);
         });
-    }
-    var stopfun=function(){
-        view.removeLayer(heatmap);
-    }
-    var updateTime=function(){
-        updatet();
+    },
+
+
+    getSpan=function(){//获取网格的跨度
+        var scale = 0.75;
+        var x = 0.00064;
+        for (var i = this.level; i < 19; i++) {
+            x *= 2;
+        }
+        var y = parseFloat((scale * x).toFixed(5));
+        return {x: x, y: y};
+    },
+
+
+    redraw=function(){
+        level =map.getZoom();
+        bounds = {
+            x1: map.getBounds().getSouthWest().lng,
+            y1: map.getBounds().getSouthWest().lat,
+            x2: map.getBounds().getNorthEast().lng,
+            y2: map.getBounds().getNorthEast().lat
+        };
+        span = getSpan();
+        for (var i in xgrids) {
+            map.removeOverlay(xgrids[i]);
+        }
+        xgrids = [];
+        for (var i in ygrids) {
+            map.removeOverlay(ygrids[i]);
+        }
+        for (var i = bounds.x1 + (point.lng - bounds.x1) % span.x - span.x; i < bounds.x2 + span.x; i += span.x) {
+            var polyline = new BMapGL.Polyline([
+                new BMapGL.Point(i.toFixed(6), bounds.y1),
+                new BMapGL.Point(i.toFixed(6), bounds.y2)
+            ], {strokeColor: "blue", strokeWeight: 1, strokeOpacity: 0.5});
+            xgrids.push(polyline);
+            map.addOverlay(polyline);
+        }
+        for (var i = bounds.y1 + (point.lat - bounds.y1) % span.y - span.y; i < bounds.y2 + span.y; i += span.y) {
+            var polyline = new BMapGL.Polyline([
+                new BMapGL.Point(bounds.x1, i.toFixed(6)),
+                new BMapGL.Point(bounds.x2, i.toFixed(6))
+            ], {strokeColor: "blue", strokeWeight: 1, strokeOpacity: 0.5});
+            ygrids.push(polyline);
+            map.addOverlay(polyline);
+        }
     }
     setInterval(updateTime,5000);
   },

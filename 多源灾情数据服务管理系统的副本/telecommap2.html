@@ -77,112 +77,96 @@
         },
         mounted () {
             var point = new BMapGL.Point(116.350591,39.963096);
+            var xgrids = [];//经线
+            var ygrids = [];//纬线
+            var beSelectBounds = {};
+            var bounds = null;//当前地图的四个顶点
+            var span = null;//当前网格的跨度
             var rsu=[];
             var last=[];
             var map = new BMapGL.Map('allmap');
-            // axios.get('http://114.116.249.36:8018')
-            // .then(
-            //     function(response){
-                    // this.res=response.data;
-                    // console.log(res)
-                    // var data=[]
-                    // rsu=this.res.data;
-                    // console.log(res);
-                    // for (var i = 0; i < rsu.length; i++) {
-                    //     lon=rsu[i][0];
-                    //     lat=rsu[i][1];
-                    //     data.push(new BMapGL.Point(lon, lat))
-                    //     console.log(lon,lat)
-                    // }
-                    // var polygon = new BMapGL.Polygon(
-                    //     data, 
-                    // {
-                    //     strokeColor: 'red',
-                    //     strokeWeight: 2,
-                    //     strokeOpacity: 0.5
-                    // });
-                    function add_oval(centre,x,y)
-                    {
-                        var assemble=new Array();
-                        var angle;
-                        var dot;
-                        var tangent=x/y; 
-                        for(i=0;i<360;i++)
-                        {
-                            angle = (2* Math.PI / 360) * i;
-                            dot = new BMapGL.Point(centre.lng+Math.sin(angle)*y*tangent, centre.lat+Math.cos(angle)*y);
-                            dot.lng= (dot.lng-centre.lng)*Math.cos(30*Math.PI/180)-(dot.lat-centre.lat)*Math.sin(30*Math.PI/180)+centre.lng;    
-                            dot.lat= (dot.lng-centre.lng)*Math.sin(30*Math.PI/180)+(dot.lat-centre.lat)*Math.cos(30*Math.PI/180)+centre.lat;
-                            assemble.push(dot);
-                        }
-                        return assemble;
-                    }
-                    var oval = new BMapGL.Polygon(add_oval(point,0.0040,0.003), {strokeColor:"red", strokeWeight:2, fillOpacity: 0.10,strokeOpacity:1,fillColor:"rgb(243, 20, 20)"});
-                    var ovall = new BMapGL.Polygon(add_oval(point,0.0030,0.002), {strokeColor:"red", strokeWeight:2,fillOpacity: 0.15,strokeOpacity:1,fillColor:"rgb(243, 20, 20)"});
-                    var ovalll = new BMapGL.Polygon(add_oval(point,0.0015,0.001), {strokeColor:"red", strokeWeight:2, fillOpacity: 0.3,strokeOpacity:1,fillColor:"rgb(243, 20, 20)"});
-                    map.centerAndZoom(point, 17);
-                    map.enableScrollWheelZoom(true);
-                    map.addOverlay(oval);
-                    map.addOverlay(ovall);
-                    map.addOverlay(ovalll);
-                    // map.addOverlay(polygon);  
-                // }
-            // )
-            // .catch(function (error) { // 请求失败处理
-            //     console.log(error);
-            // });   
-            // var updatet=function(){
-            //     data=[];
-            //     last=rsu;
-            //     var count=0;
-            //     axios.get('http://114.116.249.36:8018')
-            //     .then(
-            //         function(response){
-            //             this.res=response.data;
-            //             var data=[]
-            //             rsu=this.res.data;
-            //             console.log(rsu)
-            //             for(var i=0;i<rsu.length;i++){
-            //                 if(last[i][0]==rsu[i][0])
-            //                     count++;
-            //                 if(last[i][1]==rsu[i][1])
-            //                     count++;
-            //                 if(last[i][2]==rsu[i][2])
-            //                     count++;  
-            //             }
-            //             if(count==3*rsu.length){
-            //                 console.log("fail");
-            //             }
-            //             else{
-            //                 for (var i = 0; i < rsu.length; i++) {
-            //                 lon=rsu[i][0];
-            //                 lat=rsu[i][1];
-            //                 data.push({
-            //                     geometry: {
-            //                         type: 'Point',
-            //                         coordinates: [lon, lat]
-            //                     },
-            //                     properties: {
-            //                         count: rsu[i][2]
-            //                     }
-            //                 });
-            //             }
-            //             view.addLayer(heatmap);
-            //             heatmap.setData(data);
-            //             }  
-            //         }
-            //     )
-            //     .catch(function (error) { // 请求失败处理
-            //         console.log(error);
-            //     });
-            // }
-            // var stopfun=function(){
-            //     view.removeLayer(heatmap);
-            // }
-            // var updateTime=function(){
-            //     updatet();
-            // }
-            // setInterval(updateTime,5000);
-        },
+
+
+            getSpan=function(){//获取网格的跨度
+                var scale = 0.75;
+                var x = 0.00064;
+                for (var i = this.level; i < 19; i++) {
+                    x *= 2;
+                }
+                var y = parseFloat((scale * x).toFixed(5));
+                return {x: x, y: y};
+            }
+
+
+            redraw=function(){
+                level =map.getZoom();
+                bounds = {
+                    x1: map.getBounds().getSouthWest().lng,
+                    y1: map.getBounds().getSouthWest().lat,
+                    x2: map.getBounds().getNorthEast().lng,
+                    y2: map.getBounds().getNorthEast().lat
+                };
+                span = getSpan();
+                for (var i in xgrids) {
+                    map.removeOverlay(xgrids[i]);
+                }
+                xgrids = [];
+                for (var i in ygrids) {
+                    map.removeOverlay(ygrids[i]);
+                }
+                for (var i = bounds.x1 + (point.lng - bounds.x1) % span.x - span.x; i < bounds.x2 + span.x; i += span.x) {
+                    var polyline = new BMapGL.Polyline([
+                        new BMapGL.Point(i.toFixed(6), bounds.y1),
+                        new BMapGL.Point(i.toFixed(6), bounds.y2)
+                    ], {strokeColor: "blue", strokeWeight: 1, strokeOpacity: 0.5});
+                    xgrids.push(polyline);
+                    map.addOverlay(polyline);
+                }
+                for (var i = bounds.y1 + (point.lat - bounds.y1) % span.y - span.y; i < bounds.y2 + span.y; i += span.y) {
+                    var polyline = new BMapGL.Polyline([
+                        new BMapGL.Point(bounds.x1, i.toFixed(6)),
+                        new BMapGL.Point(bounds.x2, i.toFixed(6))
+                    ], {strokeColor: "blue", strokeWeight: 1, strokeOpacity: 0.5});
+                    ygrids.push(polyline);
+                    map.addOverlay(polyline);
+                }
+            }
+
+
+            function add_oval(centre,x,y)
+            {
+                var assemble=new Array();
+                var angle;
+                var dot;
+                var tangent=x/y; 
+                for(i=0;i<360;i++)
+                {
+                    angle = (2* Math.PI / 360) * i;
+                    dot = new BMapGL.Point(centre.lng+Math.sin(angle)*y*tangent, centre.lat+Math.cos(angle)*y);
+                    dot.lng= (dot.lng-centre.lng)*Math.cos(30*Math.PI/180)-(dot.lat-centre.lat)*Math.sin(30*Math.PI/180)+centre.lng;    
+                    dot.lat= (dot.lng-centre.lng)*Math.sin(30*Math.PI/180)+(dot.lat-centre.lat)*Math.cos(30*Math.PI/180)+centre.lat;
+                    assemble.push(dot);
+                }
+                return assemble;
+            }
+
+            
+            var oval = new BMapGL.Polygon(add_oval(point,0.0040,0.003), {strokeColor:"red", strokeWeight:2, fillOpacity: 0.10,strokeOpacity:1,fillColor:"rgb(243, 20, 20)"});
+            var ovall = new BMapGL.Polygon(add_oval(point,0.0030,0.002), {strokeColor:"red", strokeWeight:2,fillOpacity: 0.15,strokeOpacity:1,fillColor:"rgb(243, 20, 20)"});
+            var ovalll = new BMapGL.Polygon(add_oval(point,0.0015,0.001), {strokeColor:"red", strokeWeight:2, fillOpacity: 0.3,strokeOpacity:1,fillColor:"rgb(243, 20, 20)"});
+            map.centerAndZoom(point, 17);
+            map.enableScrollWheelZoom(true);
+            map.addOverlay(oval);
+            map.addOverlay(ovall);
+            map.addOverlay(ovalll);
+            redraw();
+            map.addEventListener("dragend", function () {
+                redraw()
+            });
+                //添加放大或缩小时的事件
+            map.addEventListener("zoomend", function () {
+                redraw();
+            });
+        }
         })
     </script>
