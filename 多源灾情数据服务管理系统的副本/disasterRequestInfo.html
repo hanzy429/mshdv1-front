@@ -9,32 +9,42 @@
   <link rel="stylesheet" href="./layui/css/layui.css"  media="all">
   <link rel="stylesheet" href="./css/font.css">
   <link rel="stylesheet" href="./css/xadmin.css">
+  <script src="./layui/layui.js" charset="utf-8"></script>
   <script type="text/javascript" src="./js/xadmin.js"></script>
   <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 	</head>
 	<body>
-		
 		<div class="layui-btn-group demoTable">
 		  <button class="layui-btn" id="processedRequestFilter">已处理</button>
 		  <button class="layui-btn" id="noProcessedRequestFilter">未处理</button>
 		  <!-- <button class="layui-btn" data-type="isAll">验证是否全选</button> -->
 		</div>
-		
+		<label><input  type="radio" name="radio1" value="1" checked />文件</label>
+		<label><input  type="radio" name="radio1" value="2" />数据库</label>
+		<label><input  type="radio" name="radio1" value="3" />短信</label>
+		<label><input  type="radio" name="radio1" value="4" />邮件</label>
 		<table id="disasterRequestTb" lay-filter="disasterRequestTb"></table>
         <div class="layui-card-header">
         <!-- <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button> -->
         <!-- <button class="layui-btn" onclick="xadmin.open('添加灾情申请','./disasterRequestInfo-add.html',1200,600)"><i class="layui-icon"></i>添加</button> -->
         </div>
-		 
+		<script>
+			
+
+		</script>	
 		<script type="text/html" id="barDemo">
-		
-				<a class="layui-btn layui-btn-xs" lay-event="edit">发送文件</a>
+
+				<a class="layui-btn layui-btn-xs" lay-event="detail">处理</a>
+<!-- 				<a class="layui-btn layui-btn-xs" lay-event="edit">发送文件</a>
 				<a class="layui-btn layui-btn-xs" lay-event="detail">发送数据库</a>
+				<a class="layui-btn layui-btn-xs" lay-event="message">发送短信</a>
+				<a class="layui-btn layui-btn-xs" lay-event="mail">发送邮件</a> -->
 				<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 		</script>
 		<script src="./layui/layui.js" charset="utf-8"></script>
 		<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 		<script>
+
 		var typeMap = {
 			'111':'人员死亡',
 			'112':'人员受伤',
@@ -60,14 +70,25 @@
 			'447':'次生灾害-其他',
 			'551':'震情-基本震情'
 		}
-		layui.use('table', function(){
+		layui.use(['jquery','layer','table'], function(){
 		  var table = layui.table;
 		  var $ = layui.$;
+		  var selector
 		  var URL = 'http://114.116.249.36:6001';
 		  var URLInterpreter = "http://114.116.249.36:5001";
+		  console.log("ok")
 		  // var URL = 'http://39.99.228.199:6001';
-		  
-		  
+		  function whichRadioValueChecked(selector){
+		  			var rtn = "";
+		  			selector.each(function(){
+		  			if($(this).prop("checked")){
+		  			rtn = $(this).attr("value");
+		  			console.log(rtn)
+		  }
+		  });
+		  return rtn;
+		  }
+		  selector = $('input[type="radio"][name="radio1"]');
 		  $.ajax({
 		  			url: URLInterpreter+'/v1/user/permission',
 		  			type: 'get',
@@ -101,7 +122,7 @@
       }},
                   {field:'oURL', title:'发送地址', width:200, fixed: true},
 				  {field:'requestUnit', title:'请求单位', width:200, fixed: true},
-                  {fixed: 'right', width:250, align:'center', toolbar: '#barDemo'}  
+                  {fixed: 'right', width:200, align:'center', toolbar: '#barDemo'}  
 			  ]]
 		  });}
 		  renderTable();
@@ -113,30 +134,90 @@
 		  //监听工具条
 		  table.on('tool(disasterRequestTb)', function(obj){
 		    var data = obj.data;
+			var $ = layui.$;
 		    if(obj.event === 'detail'){
+				
+				var value1 = whichRadioValueChecked(selector);
 				if(data.status === '1')
 				{
 					layer.alert("此请求已经处理过！")
 				}
 				else 
 				{
-		      $.ajax({
-		      	url: URL+'/v1/disasterSqlRequest'+'/'+data.id+'/'+data.disasterType,
-		      	method: 'put',
-		      	success:function(res){
-		      	                    if(res.code === 1){
-		      	                        layer.alert("成功入库！");
-										renderTable();
-		      	                    }
-		      	                    else
-		      	                        layer.alert("该数据已经入库！");
-										renderTable();
-		      	                },
-		      	error:function(data){
-		      	layer.alert("该数据已经入库！");
-		      	}
-		      });
-			  }
+					if(value1==='1')
+					{
+						$.ajax({
+							url: URL+'/v1/disasterRequest'+'/'+data.id+'/'+data.disasterType,
+							method: 'put',
+							success:function(res){
+							                    if(res.code === 1){
+							                        layer.alert("处理成功，已发送！");
+																renderTable();
+							                    }
+							                    else
+							                        alert(res.msg);
+							                },
+							error:function(data){
+							layer.alert("服务器繁忙");
+							}
+						});
+					}	
+					else if(value1==='2')
+					{
+						$.ajax({
+						    	url: URL+'/v1/disasterSqlRequest'+'/'+data.id+'/'+data.disasterType,
+						    	method: 'put',
+						    	success:function(res){
+						    	                    if(res.code === 1){
+						    	                        layer.alert("成功入库！");
+																renderTable();
+						    	                    }
+						    	                    else
+						    	                        layer.alert("该数据已经入库！");
+																renderTable();
+						    	                },
+						    	error:function(data){
+						    	layer.alert("该数据已经入库！");
+						    	}
+						    });
+					}
+					else if(value1==='3')
+					{
+						layer.open({
+						type: 2,
+						title: '发送短信',
+						content: './sentMessage.html?type=' + data.disasterType,
+						area: ['375px', '225px'],
+						anim: 5
+						 })
+					}
+					else if(value1==='4')
+					{
+						layer.open({
+						type: 2,
+						title: '发送邮件',
+						content: './sentMail.html?type=' + data.disasterType,
+						area: ['375px', '225px'],
+						anim: 5
+						 })
+					}
+		  //     $.ajax({
+		  //     	url: URL+'/v1/disasterSqlRequest'+'/'+data.id+'/'+data.disasterType,
+		  //     	method: 'put',
+		  //     	success:function(res){
+		  //     	                    if(res.code === 1){
+		  //     	                        layer.alert("成功入库！");
+				// 						renderTable();
+		  //     	                    }
+		  //     	                    else
+		  //     	                        layer.alert("该数据已经入库！");
+				// 						renderTable();
+		  //     	                },
+		  //     	error:function(data){
+		  //     	layer.alert("该数据已经入库！");
+		  //     	}
+		  //     });
+			   }
 		    } 
 			else if(obj.event === 'del'){
 				layer.confirm('真的删除行么', function(index){
@@ -160,6 +241,38 @@
 								})
 				});
 		    }
+			else if(obj.event==='message'){
+				if(data.status === '1')
+				{
+					layer.alert("此请求已经处理过！")
+				}
+				else
+				{
+					layer.open({
+					type: 2,
+					title: '发送短信',
+					content: './sentmessage.html?type=' + data.disasterType,
+					area: ['375px', '225px'],
+					anim: 5
+					 })
+				}
+			}
+			else if(obj.event==='mail'){
+				if(data.status === '1')
+				{
+					layer.alert("此请求已经处理过！")
+				}
+				else
+				{
+					layer.open({
+					type: 2,
+					title: '发送邮件',
+					content: './sentmail.html?type=' + data.disasterType,
+					area: ['375px', '225px'],
+					anim: 5
+					 })
+				}
+			}
 			else if(obj.event === 'edit'){
 				if(data.status === '1')
 				{

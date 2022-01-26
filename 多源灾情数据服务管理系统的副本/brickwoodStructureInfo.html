@@ -18,6 +18,10 @@
 
     <form class="layui-form" action="">
         <div class="layui-btn-group demoTable">
+			<button type="submit" class="layui-btn" lay-submit="" lay-filter="recent10" onClick="return false">灾后1小时</button>
+			<button type="submit" class="layui-btn" lay-submit="" lay-filter="recent9" onClick="return false">灾后3小时</button>
+			<button type="submit" class="layui-btn" lay-submit="" lay-filter="recent8" onClick="return false">灾后5小时</button>
+			<button type="submit" class="layui-btn" lay-submit="" lay-filter="recent7" onClick="return false">灾后12小时</button>
             <button type="submit" class="layui-btn" lay-submit="" lay-filter="recent1" onClick="return false">最近24小时</button>
             <button type="submit" class="layui-btn" lay-submit="" lay-filter="recent2" onClick="return false">最近7天</button>
             <button type="submit" class="layui-btn" lay-submit="" lay-filter="recent3" onClick="return false">最近1个月</button>
@@ -174,7 +178,7 @@
                                 ]
                             });
                         }
-
+						
                         //监听form
                         form.on('submit(recent1)', function(data) {
                             ShowRecentData(1);
@@ -195,6 +199,85 @@
                             //渲染表格数据
                             tableRender();
                         });
+
+                        function ShowRecentHourData(time) {
+                            table.render({
+                                elem: '#brickwoodStructureTb',
+                                url: URL + '/v1/byhourbrickwoodStructure/' + time,
+                                page: true,
+								toolbar: '#toolbarDemo',
+								defaultToolbar: ['filter', 'exports', 'print'],
+                                cols: [
+                                    [
+                                        //{type:'checkbox', fixed: 'left'},
+                                        {
+                                            field: 'id',
+                                            title: 'ID',
+                                            width: 180,
+                                            sort: true,
+                                            fixed: true
+                                        }, {
+                                            field: 'date',
+                                            title: '日期',
+                                            width: 170,
+                                            sort: true
+                                        }, {
+                                            field: 'location',
+                                            title: '地点',
+                                            width: 70
+                                        }, {
+                                            field: 'basicallyIntactSquare',
+                                            title: '基本完好面积(m²)',
+                                            width: 140
+                                        }, {
+                                            field: 'damagedSquare',
+                                            title: '破坏面积(m²)',
+                                            width: 120
+                                        }, {
+                                            field: 'destroyedSquare',
+                                            title: '毁坏面积(m²)',
+                                            width: 120
+                                        }, {
+                                            field: 'note',
+                                            title: '破坏情况描述',
+                                            width: 120
+                                        }, {
+                                            field: 'reportingUnit',
+                                            title: '上报单位',
+                                            width: 100,
+                                            fixed: 'right'
+                                        }, {
+                                            fixed: 'right',
+                                            width: 120,
+                                            align: 'center',
+                                            toolbar: '#barDemo'
+                                        }
+                                    ]
+                                ]
+                            });
+                        }
+						form.on('submit(recent7)', function(data) {
+							ShowRecentHourData(12);
+						    //渲染表格数据
+						    
+						});
+						form.on('submit(recent8)', function(data) {
+							ShowRecentHourData(5);
+						    //渲染表格数据
+						    
+						});
+						form.on('submit(recent9)', function(data) {
+							ShowRecentHourData(3);
+						    //渲染表格数据
+						    
+						});
+						form.on('submit(recent10)', function(data) {
+							ShowRecentHourData(1);
+						    //渲染表格数据
+						    
+						});
+
+
 
                         //监听表格复选框选择
                         table.on('checkbox(brickwoodStructureTb)', function(obj) {

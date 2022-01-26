@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>折线图</title>
+
+</head>
+    <script src="./layui/layui.js" charset="utf-8"></script>
+    <!-- <script src="http://api.map.baidu.com/api?v=2.0&ak=lwP645LnT0EubseWq32Z9xWapMeaNxgB"></script> -->
+    <script type="text/javascript" src=" https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.0.1/dist/extension/bmap.js"></script> -->
+    <script type="text/javascript"></script>
+<body >
+<!--为echarts准备一个容器，画图就画在里面-->
+<div id="box1" style="width: 500px;height: 600px; float: left;"></div>
+<div id="box2" style="width: 500px;height: 600px; float: right;"></div>
+<div id="box3" style="width: 500px;height: 600px; float: left;" ></div>
+<script>
+	var URL = 'http://114.116.249.36:9006';
+    //初始化ehcharts实例		 
+		    //指定图表的配置项和数据						
+</script>
+<script>
+	layui.use('jquery', function loaddeath(){
+		var $ = layui.$;
+		var chartDom=document.getElementById('box1');
+		var myChart = echarts.init(chartDom);
+			$.ajax({
+				url: URL + '/v1/byhourdeathStatisticspicture',
+				method: 'get',
+				success: function(res){
+					
+					var option={
+					    //标题
+					    title:{
+					      text:'人员死亡对比折线图'
+					    },
+					    legend:{
+					        data:['死亡人数']
+					    },
+					    //x轴
+					    xAxis:{
+					        data:["1小时内","1-3小时","3-5小时","5-12小时"]
+					    },
+					    //y轴没有显式设置，根据值自动生成y轴
+					    yAxis:{},
+					    //数据-data是最终要显示的数据
+					    series:[{
+					        name:'死亡人数',
+					        type:'line',
+					        data:res.data
+					    }]
+					};
+					myChart.setOption(option);
+					
+				},
+				});
+	}
+)
+	// loaddeath();
+</script>
+<script>
+	layui.use('jquery', function loaddeath(){
+		var $ = layui.$;
+		var chartDom=document.getElementById('box2');
+		var myChart = echarts.init(chartDom);
+			$.ajax({
+				url: URL + '/v1/byhourinjuredStatisticspicture',
+				method: 'get',
+				success: function(res){
+					
+					var option={
+					    //标题
+					    title:{
+					      text:'人员受伤对比折线图'
+					    },
+					    legend:{
+					        data:['受伤人数']
+					    },
+					    //x轴
+					    xAxis:{
+					        data:["1小时内","1-3小时","3-5小时","5-12小时"]
+					    },
+					    //y轴没有显式设置，根据值自动生成y轴
+					    yAxis:{},
+					    //数据-data是最终要显示的数据
+					    series:[{
+					        name:'受伤人数',
+					        type:'line',
+					        data:res.data
+					    }]
+					};
+					myChart.setOption(option);
+					
+				},
+				});
+	}
+)
+	// loaddeath();
+</script>
+<script>
+	layui.use('jquery', function loaddeath(){
+		var $ = layui.$;
+		var chartDom=document.getElementById('box3');
+		var myChart = echarts.init(chartDom);
+			$.ajax({
+				url: URL + '/v1/byhourmissingStatistics',
+				method: 'get',
+				success: function(res){
+					
+					var option={
+					    //标题
+					    title:{
+					      text:'人员失踪对比折线图'
+					    },
+					    legend:{
+					        data:['失踪人数']
+					    },
+					    //x轴
+					    xAxis:{
+					        data:["1小时内","1-3小时","3-5小时","5-12小时"]
+					    },
+					    //y轴没有显式设置，根据值自动生成y轴
+					    yAxis:{},
+					    //数据-data是最终要显示的数据
+					    series:[{
+					        name:'失踪人数',
+					        type:'line',
+					        data:res.data
+					    }]
+					};
+					myChart.setOption(option);
+					
+				},
+				});
+	}
+)
+	// loaddeath();
+</script>
+</body>
+</html>

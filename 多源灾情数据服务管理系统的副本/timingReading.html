@@ -53,7 +53,7 @@
         url: URL + '/v1/getFileReadingSettings',
         type: 'get',
         success: function (res) {
-          alert(JSON.stringify(res))
+          
           if (res.code == 0) {
             console.log(JSON.stringify(res));
             let read = res.data[0].read;
